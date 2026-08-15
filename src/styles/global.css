@@ -23,6 +23,37 @@ html,
 	--text-muted:   #9b8f82;      /* ← café suave - sidebar */
 	--text-subtle:  #b5a99c;      /* ← crema oscura - El breadcrumb  "Documentación › Grafos › Dijkstra"*/
 	--text-accent:  #c47d0e;      /* ← ambar - todo lo que es interactivo o activo */
+	
+	
+	--grafos-text:   #1a5e30;
+	--grafos-bg:     #e8f5ec;
+	--grafos-border: #a9cfb5;
+
+	--strings-text:   #5b4bb7;
+	--strings-bg:     #eeecfa;
+	--strings-border: #c9c3e5;
+
+	--mates-text:   #9a5b16;
+	--mates-bg:     #faf0df;
+	--mates-border: #ddc49c;
+
+	--estructuras-text:   #7b3f8c;
+	--estructuras-bg:     #f5eaf8;
+	--estructuras-border: #d5b8dc;
+
+	--dp-text:   #a13d3d;
+	--dp-bg:     #faeaea;
+	--dp-border: #deb6b6;
+
+	--flujo-text:   #21657c;
+	--flujo-bg:     #e7f2f6;
+	--flujo-border: #acd0dc;
+
+	--geometria-text:   #24716b;
+	--geometria-bg:     #e6f3f1;
+	--geometria-border: #afd3cf;
+
+
   }
 
   .dark {
@@ -59,4 +90,35 @@ html,
 	--color-muted:   var(--text-muted);   
 	--color-subtle:  var(--text-subtle);   
 	--color-accent:  var(--text-accent); 
+
+
+	--color-grafos-text: var(--grafos-text);
+	--color-grafos-bg: var(--grafos-bg);
+	--color-grafos-border: var(--grafos-border);
+
+	--color-strings-text:  var(--strings-text);
+	--color-strings-bg:  var(--strings-bg);
+	--color-strings-border:  var(--strings-border);
+
+	--color-mates-text: var(--mates-text);
+	--color-mates-bg: var(--mates-bg);
+	--color-mates-border: var(--mates-border);
+
+	--color-estructuras-text: var(--estructuras-text);
+	--color-estructuras-bg: var(--estructuras-bg);
+	--color-estructuras-border: var(--estructuras-border);
+
+	--color-dp-text: var(--dp-text);
+	--color-dp-bg: var(--dp-bg);
+	--color-dp-border: var(--dp-border);
+
+	--color-flujo-text:   var(--flujo-text);
+	--color-flujo-bg:   var(--flujo-bg);
+	--color-flujo-border:   var(--flujo-border);
+
+	--color-geometria-text: var(--geometria-text);
+	--color-geometria-bg: var(--geometria-bg);
+	--color-geometria-border: var(--geometria-border);
+
+
 }
