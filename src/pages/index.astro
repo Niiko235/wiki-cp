@@ -1,11 +1,35 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import { GitFork } from '@lucide/astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Welcome />
+	<main class="bg-base min-h-screen flex flex-col max-w-7xl mx-auto">
+		<div class="border-b border-border-dark">
+			<section class="text-center mx-auto space-y-4 max-w-xl py-20">
+			<div class="mx-auto w-fit py-1 px-4 border border-border rounded-full flex items-center bg-sidebar text-muted">
+				<div class="size-2 rounded-full bg-accent mr-2"></div>
+				<h3>Semillero de Programación · UDLA · Florencia, Colombia</h3>
+			</div>
+			<h1 class="font-extrabold text-title text-6xl">
+				La wiki de CP <span class="block text-accent">en español</span>
+			</h1>
+			<p class="text-body">Algoritmos, estructuras y técnicas explicadas por el semillero de programación de la Universidad de la Amazonia. Para clasificar al mundial.</p>
+			<div class="flex flex-col gap-4 md:flex-row justify-center items-center">
+				<buton class="w-40 bg-accent p-2 rounded-md font-bold text-white dark:text-black hover:cursor-pointer">Empezar a leer →</buton>
+				<button class="w-40 flex gap-2 border border-border-dark p-2 rounded-md bg-sidebar text-body hover:cursor-pointer"><GitFork/> Ver en GitHub</button>
+			</div>
+			<div class="flex justify-around text-muted">
+				<p>24 algoritmos</p>
+				<p>·</p>
+				<p>3 niveles</p>
+				<p>·</p>
+				<p>100% español</p>
+				<p>·</p>
+				<p>open source</p>
+			</div>
+			
+		</section>
+		</div>
+	</main>
 </Layout>
