@@ -1,35 +1,93 @@
 ---
 import { GitFork } from '@lucide/astro';
 import Layout from '../layouts/Layout.astro';
+import Buttom from '../components/Buttom.astro'
+import Badge from '../components/Badge.astro'
+
+
+import { getCollection, render } from 'astro:content';
+
+const books = await getCollection('books')
+
+
+const book = books.find(book => book.id === 'codigo-ejemplo')
+
+if (!book) throw new Error('No se encontró el libro');
+
+const {Content} = await render(book);
+
 ---
 
 <Layout>
 	<main class="bg-base min-h-screen flex flex-col max-w-7xl mx-auto">
-		<div class="border-b border-border-dark">
-			<section class="text-center mx-auto space-y-4 max-w-xl py-20">
-			<div class="mx-auto w-fit py-1 px-4 border border-border rounded-full flex items-center bg-sidebar text-muted">
-				<div class="size-2 rounded-full bg-accent mr-2"></div>
-				<h3>Semillero de Programación · UDLA · Florencia, Colombia</h3>
+		<section class="border-b border-border-dark">
+			<div class="text-center mx-auto space-y-4 max-w-xl py-20 px-5">
+				<div class="mx-auto w-fit py-1 px-4 border border-border rounded-full flex items-center bg-sidebar text-muted">
+					<div class="size-2 rounded-full bg-accent mr-2 hidden md:block"></div>
+					<h3>Semillero de Programación · UDLA · Florencia, Colombia</h3>
+				</div>
+				<h1 class="font-extrabold text-title text-6xl">
+					La wiki de CP <span class="block text-accent">en español</span>
+				</h1>
+				<p class="text-body">Algoritmos, estructuras y técnicas explicadas por el semillero de programación de la Universidad de la Amazonia. Para clasificar al mundial.</p>
+				<div class="flex gap-4 flex-row justify-center items-center">
+					<a href="#">
+						<Buttom class="w-40 bg-accent p-2 text-white dark:text-black font-bold">
+							Empezar a leer →
+						</Buttom>
+					</a>
+					<a href="https://github.com/Niiko235/wiki-cp" target="_blank">
+						<Buttom class="w-40 bg-sidebar flex gap-2 border border-border-dark p-2">
+							<GitFork/> 
+							Ver en GitHub
+						</Buttom>
+					</a>
+				</div>
+				<div class="flex justify-around text-muted items-center">
+					<p>24 algoritmos</p>
+					<p>·</p>
+					<p>3 niveles</p>
+					<p>·</p>
+					<p>100% español</p>
+					<p>·</p>
+					<p>open source</p>
+				</div>
 			</div>
-			<h1 class="font-extrabold text-title text-6xl">
-				La wiki de CP <span class="block text-accent">en español</span>
-			</h1>
-			<p class="text-body">Algoritmos, estructuras y técnicas explicadas por el semillero de programación de la Universidad de la Amazonia. Para clasificar al mundial.</p>
-			<div class="flex flex-col gap-4 md:flex-row justify-center items-center">
-				<buton class="w-40 bg-accent p-2 rounded-md font-bold text-white dark:text-black hover:cursor-pointer">Empezar a leer →</buton>
-				<button class="w-40 flex gap-2 border border-border-dark p-2 rounded-md bg-sidebar text-body hover:cursor-pointer"><GitFork/> Ver en GitHub</button>
-			</div>
-			<div class="flex justify-around text-muted">
-				<p>24 algoritmos</p>
-				<p>·</p>
-				<p>3 niveles</p>
-				<p>·</p>
-				<p>100% español</p>
-				<p>·</p>
-				<p>open source</p>
-			</div>
-			
 		</section>
-		</div>
+		<section class="border-b border-border-dark">
+			<div class="mx-auto max-w-2xl py-15 px-5 grid grid-cols-1 md:grid-cols-2 gap-3">
+				<div class="space-y-3">
+					<h4>DOCUMENTACIÓN</h4>
+					<h2 class="text-2xl font-bold">Todo en español, explicado por nosotros</h2>
+					<p>Sin traducciones automáticas. Cada algoritmo explicado desde la intuición, con nuestro propio código y nuestras macros.</p>
+					<div class="flex flex-wrap gap-1 font-semibold">
+						<Badge class="text-geometria-text bg-geometria-bg border-geometria-border">
+							Geometria
+						</Badge>
+						<Badge class="text-strings-text bg-strings-bg border-strings-border">
+							String
+						</Badge>
+						<Badge class="text-grafos-text bg-grafos-bg border-grafos-border">
+							Grafos
+						</Badge>
+						<Badge class="text-mates-text bg-mates-bg border-mates-border">
+							Matemáticas
+						</Badge>
+						<Badge class="text-estructuras-text bg-estructuras-bg border-estructuras-border">
+							Estructuras
+						</Badge>
+						<Badge class="text-dp-text bg-dp-bg border-dp-border">
+							DP
+						</Badge>
+						<Badge class="text-flujo-text bg-flujo-bg border-flujo-border">
+							Flujos
+						</Badge>
+					</div>
+				</div>
+				<div class="prose prose-invert">
+					<Content/>
+				</div>
+			</div>
+		</section>
 	</main>
 </Layout>
