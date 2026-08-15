@@ -1,3 +1,8 @@
+---
+title: Arbol segmentado - Segment-tree
+author: Nicolas Plaza
+---
+
 # Segment Tree
 El segment tree es un albol binario que se nos presenta como la solucion cuando tenemos un conjunto de elementos y se requiere hacer queries en rango y actualizaciones sobre estos.
 
@@ -19,11 +24,11 @@ La explicación de este algoritmo la divideremos en 3 partes:
 
 Ya que hablamos de un arbol binario, podemos decir que un segment tree tendria esta forma a la hora de construirlo; en este algoritmo cada nodo tiene 2 atributos indispensables para su funcionamiento: un id para identidificar cada nodo y un tupla (i,j) que nos indica el rango que aquel nodo maneja.
 
-![alt text](/public/content/segment-tree/st-1.png)
+![alt text](/public/teoria/segment-tree/st-1.png)
 
 Ahora bien ¿Comó introducimos nuestro array de numeros en el? arrancaremos desde la raiz de nuestro arbol, dando como indice el numero 1, ya que es el nodo 1 y la tupla  (0,3) que es el rango completo de nuestro array. 
 
-![alt text](/public/content/segment-tree/st-2.png)
+![alt text](/public/teoria/segment-tree/st-2.png)
 
 Ya con los atributos de nuestra raiz, podemos pasar a calcular su valor. Pero, para esto es necesario calcular sus hijos primero, para ello le daremos los atributos de sus hijos de la siguiente manera:
 * el ID del hijo izquierdo = id del padre * 2
@@ -31,7 +36,7 @@ Ya con los atributos de nuestra raiz, podemos pasar a calcular su valor. Pero, p
 * El rango del hijo izquierdo = (el i del padre, i + j / 2)
 * El rango del hijo derecho = ((i + j / 2) + 1, el J del padre)
 
-![alt text](/public/content/segment-tree/st-3.png)
+![alt text](/public/teoria/segment-tree/st-3.png)
 
 Como los hijos directos del la raiz tampoco tienen ningun valor todavia, ellos tienen que calcular tambien el valor de sus hijos primero. La condicion de parada en esta recursión es cuando el i,j son iguales y como se puede apreciar esto solo ocurre cuando es una hoja. Las hojas indican el indice del valor en nuestro array con el que se tiene que llenar, una vez esto suceda se puede empezar a retornar la recursión y por ende calcular todos los nodos y ahi pa' arriba **sabiendo que en este caso un nodo padre es igual a la suma de los valores de sus hijos**.
 
@@ -41,7 +46,7 @@ Sabemos que las hojas se llenarán con los valores del array, los demas nodos te
 arbol[nodo] = arbol[hijoIzq] + arbol[hijoDer]
 ````
 
-![alt text](/public/content/segment-tree/st-4.png)
+![alt text](/public/teoria/segment-tree/st-4.png)
 
 ## Query en rago dentro del arbol
 
@@ -60,11 +65,11 @@ Para hacer la query necesitamos los siguientes parametros
 
 #### Ejemplo
 _Al igual que los demas metodos, iniciamos desde la raiz_
-![alt text](/public/content/segment-tree/st-11.png)
+![alt text](/public/teoria/segment-tree/st-11.png)
 
 _La raiz cae en el ultimo caso que es interseccion parcial, por ende su resultado en la query sera el valor de la query de sus hijos_
 
-![alt text](/public/content/segment-tree/st-12.png)
+![alt text](/public/teoria/segment-tree/st-12.png)
 
 __
 
@@ -73,7 +78,7 @@ __
 
 Antes de iniciar debemos aclarar que la actualización en el segment Tree tradicional solo permite actualizar posiciones en especificos, si un problema nos requiere las consultas por rangos y las actualizaciones tambien, la mejor implementación seria el segment Tree Laz. Dicho esto, podemos aclarar que la actualizacíon en un nodo es reemplazar su valor o hacerle una operación con un valor x, es decir: queremos actualizar la posición 2 con el valor de 5. Actualmente ese nodo tiene un valor de 2, por lo que en la actualización se nos permite reemplazar su valor por 5 o a alguna operación como seria sumarle 5; Si la operación es esta ultima terminariamos con un arbol asi: 
 
-![](/public/content/segment-tree/st-5.png)
+![](/public/teoria/segment-tree/st-5.png)
 
 Pero, ahora bien ¿Como se produce esta actualziación? Para ello debemos de crear otro metodo en el struct donde nos importa pasarle los siguientes valores 
 
@@ -84,7 +89,7 @@ Pero, ahora bien ¿Como se produce esta actualziación? Para ello debemos de cre
 
 Como sabemos, el nodo en el que iniciaremos sera en la raiz de nuestro arbol, y el L y R que le daremos será el rango de este. 
 
-![](/public/content/segment-tree/st-6.png)
+![](/public/teoria/segment-tree/st-6.png)
 
 La condicion de parada será la misma que en la construcción del arbol, cuando el. L y R seán iguales aplicaremos la actualización, de otra forma haremos lo siguiente: 
 
@@ -94,10 +99,10 @@ La condicion de parada será la misma que en la construcción del arbol, cuando 
 
 * una vez termine la recursion de alguno de los hijos actualzimos el nodo actual con el nuevo valores de sus hijos.
 
-![](/public/content/segment-tree/st-7.png)
+![](/public/teoria/segment-tree/st-7.png)
 
 Una vez que hallamos el nodo, retornamos la recursión hasta la raiz 
 
-![alt text](/public/content/segment-tree/st-8.png)
-![alt text](/public/content/segment-tree/st-9.png)
-![alt text](/public/content/segment-tree/st-10.png)
+![alt text](/public/teoria/segment-tree/st-8.png)
+![alt text](/public/teoria/segment-tree/st-9.png)
+![alt text](/public/teoria/segment-tree/st-10.png)

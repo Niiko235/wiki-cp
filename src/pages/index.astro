@@ -7,6 +7,11 @@ import Badge from '../components/Badge.astro'
 
 import { getCollection, render } from 'astro:content';
 
+
+const libros = await getCollection('teorias')
+
+console.log(libros.map(t => t.id))
+
 const books = await getCollection('books')
 
 

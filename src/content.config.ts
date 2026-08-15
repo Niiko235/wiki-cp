@@ -11,4 +11,13 @@ const books = defineCollection({
 })
 
 
-export const collections = {books}
+const teorias = defineCollection({
+    loader: glob({ pattern: "**/*.md", base: "./src/content/teorias" }),
+    schema: z.object({
+        title: z.string(),
+        author: z.string(),
+    })
+})
+
+
+export const collections = {books, teorias}

@@ -1,0 +1,30 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import { getCollection, render } from "astro:content";
+
+
+export async function getStaticPaths() {
+    const teorias = await getCollection("teorias");
+
+    console.log(teorias.map(t => t.id));
+
+    return teorias.map((teoria) => ({
+        params: {id : teoria.id},
+        props: {teoria}
+    }))
+}
+
+
+const {teoria} = Astro.props
+const {data} = teoria
+const {author, title} = data
+
+const {Content} = await render(teoria)
+---
+
+
+<Layout>
+    <section class="prose dark:prose-invert">
+        <Content/>
+    </section>
+</Layout>
