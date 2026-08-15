@@ -1,0 +1,17 @@
+
+---
+
+const { class: className } = Astro.props;
+
+---
+
+<button
+	class:list={[
+		'text-bold py-1 px-2 border broder-1 rounded-full',
+		className
+	]}
+>
+
+	<slot />
+
+</button>
