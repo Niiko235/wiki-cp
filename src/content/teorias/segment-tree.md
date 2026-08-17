@@ -24,7 +24,7 @@ La explicación de este algoritmo la divideremos en 3 partes:
 
 Ya que hablamos de un arbol binario, podemos decir que un segment tree tendria esta forma a la hora de construirlo; en este algoritmo cada nodo tiene 2 atributos indispensables para su funcionamiento: un id para identidificar cada nodo y un tupla (i,j) que nos indica el rango que aquel nodo maneja.
 
-![alt text](../../..../../../public/teoria/segment-tree/st-1.png)
+![alt text](../../../public/teoria/segment-tree/st-1.png)
 
 Ahora bien ¿Comó introducimos nuestro array de numeros en el? arrancaremos desde la raiz de nuestro arbol, dando como indice el numero 1, ya que es el nodo 1 y la tupla  (0,3) que es el rango completo de nuestro array. 
 
