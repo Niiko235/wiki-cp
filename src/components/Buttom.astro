@@ -1,17 +1,13 @@
-
 ---
-
-const { class: className } = Astro.props;
-
+const { class: className, ...props } = Astro.props;
 ---
 
 <button
-	class:list={[
-		'rounded-md transition-all duration-150 ease-out text-body hover:cursor-pointer hover:-translate-y-0.5 active:translate-y-0 active:scale-95',
-		className
-	]}
+    {...props}
+    class:list={[
+        'rounded-md transition-all duration-150 ease-out text-body hover:cursor-pointer hover:-translate-y-0.5 active:translate-y-0 active:scale-95',
+        className
+    ]}
 >
-
-	<slot />
-
+    <slot />
 </button>

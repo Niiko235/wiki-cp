@@ -1,0 +1,87 @@
+---
+import {Icon} from 'astro-icon/components'
+import Buttom from '../components/Buttom.astro'
+---
+
+
+<nav class="py-4 flex items-center justify-around border-b border-border text-body"> 
+    <div class="flex gap-1.5 font-semibold items-center">
+        <p class="font-extrabold text-title text-xl">
+            wiki 
+            <span class="text-accent">cp</span>
+        </p>
+        <span>·</span>
+        <p>udla</p>
+    </div>
+
+    <ul class="flex gap-2">
+        <a href="/teoria/segment-tree">
+            <Buttom class="rounded-md px-3 py-1 hover:bg-sidebar hover:text-primary hover:font-bold">
+                Teoria
+            </Buttom>
+        </a>
+        <a href="">
+            <Buttom class="rounded-md px-3 py-1 hover:bg-sidebar hover:text-primary hover:font-bold">
+                Ejercicios
+            </Buttom>
+        </a>
+        <a href="">
+            <Buttom class="rounded-md px-3 py-1 hover:bg-sidebar hover:text-primary hover:font-bold">
+                Referencia
+            </Buttom>
+        </a>
+    </ul>
+
+    <ul class="flex gap-2 text-muted ">
+        
+        <Buttom id="btn-tema" class="bg-sidebar p-1.5 border border-border rounded-md">
+            <Icon name="lucide:moon"/>
+        </Buttom>
+        
+        <a href="https://www.facebook.com/groups/792879287501813" target="_blank">
+            <Buttom class="bg-sidebar p-1.5 border border-border rounded-md">
+                <Icon name="simple-icons:facebook"/>
+            </Buttom>
+        </a>
+        <a href="https://www.instagram.com/udla_cp" target="_blank">
+            <Buttom class="bg-sidebar p-1.5 border border-border rounded-md">
+                <Icon name="simple-icons:instagram"/>
+            </Buttom>
+        </a>
+        <a href="" target="_blank">
+            <Buttom class="bg-sidebar p-1.5 border border-border rounded-md">
+                <Icon name="simple-icons:whatsapp"/>
+            </Buttom>
+        </a>
+    </ul>
+</nav>
+
+<script>
+    // const btn = document.getElementById("btn-tema");
+    // const documentHtml = document.documentElement;
+
+    // if(localStorage.getItem('theme') === 'dark'){
+	// 		documentHtml.classList.add('dark');
+	// 	}
+		
+	// 	btn?.addEventListener('click', () => {
+	// 		console.log("press")
+	// 		documentHtml.classList.toggle('dark');
+	// 		const newTheme = documentHtml.classList.contains('dark') ? 'dark' : 'light' ;
+	// 		localStorage.setItem('theme', newTheme)
+	// 	})
+
+    const btn = document.getElementById('btn-tema');
+
+    console.log('script cargado');
+    console.log('botón:', btn);
+
+    btn?.addEventListener('click', () => {
+        console.log('click');
+
+        document.documentElement.classList.toggle('dark');
+    });
+
+</script>
+
+

@@ -1,11 +1,12 @@
 
 ---
 
-const { class: className } = Astro.props;
+const { class: className, ...props } = Astro.props;
 
 ---
 
-<button
+<div
+ 	{...props}
 	class:list={[
 		'text-bold py-1 px-2 border broder-1 rounded-full',
 		className
@@ -14,4 +15,4 @@ const { class: className } = Astro.props;
 
 	<slot />
 
-</button>
+</div>
