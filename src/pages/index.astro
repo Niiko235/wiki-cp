@@ -1,8 +1,12 @@
 ---
-import { GitFork } from '@lucide/astro';
+import {Icon} from 'astro-icon/components'
 import Layout from '../layouts/Layout.astro';
+
+
 import Buttom from '../components/Buttom.astro'
 import Badge from '../components/Badge.astro'
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro'
 
 
 import { getCollection, render } from 'astro:content';
@@ -24,7 +28,8 @@ const {Content} = await render(book);
 ---
 
 <Layout>
-	<main class="bg-base min-h-screen flex flex-col max-w-7xl mx-auto">
+	<main class="min-h-screen flex flex-col max-w-7xl mx-auto">
+		<Navbar/>
 		<section class="border-b border-border-dark">
 			<div class="text-center mx-auto space-y-4 max-w-xl py-20 px-5">
 				<div class="mx-auto w-fit py-1 px-4 border border-border rounded-full flex items-center bg-sidebar text-muted">
@@ -34,7 +39,7 @@ const {Content} = await render(book);
 				<h1 class="font-extrabold text-title text-6xl">
 					La wiki de CP <span class="block text-accent">en español</span>
 				</h1>
-				<p class="text-body">Algoritmos, estructuras y técnicas explicadas por el semillero de programación de la Universidad de la Amazonia. Para clasificar al mundial.</p>
+				<p class="text-body">Algoritmos, estructuras y técnicas explicadas por el semillero de programación de la Universidad de la Amazonia</p>
 				<div class="flex gap-4 flex-row justify-center items-center">
 					<a href="#">
 						<Buttom class="w-40 bg-accent p-2 text-white dark:text-black font-bold">
@@ -42,8 +47,8 @@ const {Content} = await render(book);
 						</Buttom>
 					</a>
 					<a href="https://github.com/Niiko235/wiki-cp" target="_blank">
-						<Buttom class="w-40 bg-sidebar flex gap-2 border border-border-dark p-2">
-							<GitFork/> 
+						<Buttom class="w-40 bg-sidebar flex gap-2 border border-border-dark p-2 items-center">
+							<Icon name="simple-icons:github" size={18}/>
 							Ver en GitHub
 						</Buttom>
 					</a>
@@ -60,7 +65,7 @@ const {Content} = await render(book);
 			</div>
 		</section>
 		<section class="border-b border-border-dark">
-			<div class="mx-auto max-w-2xl py-15 px-5 grid grid-cols-1 md:grid-cols-2 gap-3">
+			<div class="mx-auto max-w-3xl py-15 px-5 grid grid-cols-1 md:grid-cols-2 gap-3">
 				<div class="space-y-3">
 					<h4>DOCUMENTACIÓN</h4>
 					<h2 class="text-2xl font-bold">Todo en español, explicado por nosotros</h2>
@@ -89,10 +94,11 @@ const {Content} = await render(book);
 						</Badge>
 					</div>
 				</div>
-				<div class="prose prose-invert flex items-center justify-center">
+				<div class="prose dark:prose-invert flex items-center justify-end">
 					<Content/>
 				</div>
 			</div>
 		</section>
+		<Footer/>
 	</main>
 </Layout>
