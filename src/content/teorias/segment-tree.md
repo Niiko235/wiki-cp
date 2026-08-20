@@ -107,6 +107,9 @@ Una vez que hallamos el nodo, retornamos la recursión hasta la raiz
 ![alt text](../../../public/teoria/segment-tree/st-9.png)
 ![alt text](../../../public/teoria/segment-tree/st-10.png)
 
+$$
+\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+$$
 
 ````cpp
 struct SegmentTree { 
