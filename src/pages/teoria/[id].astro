@@ -1,4 +1,5 @@
 ---
+import Navbar from '../../components/Navbar.astro';
 import Layout from '../../layouts/Layout.astro'
 import { getCollection, render } from "astro:content";
 
@@ -24,7 +25,13 @@ const {Content} = await render(teoria)
 
 
 <Layout>
-    <section class="prose dark:prose-invert">
-        <Content/>
-    </section>
+    <Navbar/>
+    <div class="flex">
+        <div class="h-full w-md bg-cyan-500">
+
+        </div>
+        <section class="prose dark:prose-invert">
+            <Content/>
+        </section>
+    </div>
 </Layout>
