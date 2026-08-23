@@ -1,6 +1,15 @@
 ---
-title: Arbol segmentado - Segment-tree
-author: Nicolas Plaza
+autores: ["Nicolas Plaza, "]
+titulo: "Segment tree"
+fechaEscrito: 2026-07-12
+fechaUltimaActualizacion: 2026-07-12
+complejidad: N^2
+prerequisitos: [{
+  nombreTema: "Arboles",
+  ulrTema: "teoria/arboles"
+}]
+problemas: []
+materialExtra: []
 ---
 
 # Segment Tree
