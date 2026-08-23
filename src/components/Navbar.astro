@@ -4,15 +4,17 @@ import Buttom from '../components/Buttom.astro'
 ---
 
 
-<nav class="py-4 flex items-center justify-around border-b border-border text-body"> 
-    <div class="flex gap-1.5 font-semibold items-center">
-        <p class="font-extrabold text-title text-xl">
-            wiki 
-            <span class="text-accent">cp</span>
-        </p>
-        <span>·</span>
-        <p>udla</p>
-    </div>
+<nav class="py-4 flex items-center justify-around border-b border-border text-body sticky top-0 bg-base"> 
+    <a href={import.meta.env.BASE_URL}>
+        <div class="flex gap-1.5 font-semibold items-center">
+            <p class="font-extrabold text-title text-xl">
+                wiki 
+                <span class="text-accent">cp</span>
+            </p>
+            <span>·</span>
+            <p>udla</p>
+        </div>
+    </a>
 
     <ul class="flex gap-2">
         <a href="/teoria/segment-tree">
