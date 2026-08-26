@@ -1,37 +1,68 @@
 ---
-import Navbar from '../../components/Navbar.astro';
 import Layout from '../../layouts/Layout.astro'
-import { getCollection, render } from "astro:content";
-
+import { getCollection, render } from 'astro:content'
+import katex from 'katex'
 
 export async function getStaticPaths() {
-    const teorias = await getCollection("teorias");
-
-    console.log(teorias.map(t => t.id));
-
-    return teorias.map((teoria) => ({
-        params: {id : teoria.id},
-        props: {teoria}
-    }))
+  const teorias = await getCollection('teorias')
+  return teorias.map((teoria) => ({
+    params: { id: teoria.id },
+    props:  { teoria }
+  }))
 }
 
+const { teoria } = Astro.props
+const { data }   = teoria
+const {
+  titulo,
+  autores,
+  complejidad,
+  fechaEscrito,
+  fechaUltimaActualizacion,
+} = data
 
-const {teoria} = Astro.props
-const {data} = teoria
-const {author, title} = data
-
-const {Content} = await render(teoria)
+const { Content }    = await render(teoria)
+const complejidadHTML = katex.renderToString(complejidad, { throwOnError: false })
+const categoria       = teoria.id.split('/')[0]
 ---
 
+<Layout titulo={titulo}>
+  <div class="max-w-3xl mx-auto px-6 py-10">
 
-<Layout>
-    <Navbar/>
-    <div class="flex">
-        <div class="h-full w-md bg-cyan-500">
+    <!-- Breadcrumb -->
+    <p class="text-[11px] font-mono text-subtle mb-4">
+      Documentación
+      <span class="mx-1 text-border-dark">›</span>
+      <span class="capitalize">{categoria}</span>
+      <span class="mx-1 text-border-dark">›</span>
+      <span class="text-muted">{titulo}</span>
+    </p>
 
-        </div>
-        <section class="prose dark:prose-invert">
-            <Content/>
-        </section>
+    <!-- Título -->
+    <h1 class="text-3xl font-extrabold text-title tracking-tight leading-tight mb-4">
+      {titulo}
+    </h1>
+
+    <!-- Badges -->
+    <div class="flex flex-wrap gap-2 mb-6">
+      <span class="text-[11px] font-semibold px-3 py-1 rounded-full border
+                   text-grafos-text bg-grafos-bg border-grafos-border font-mono">
+        <span set:html={complejidadHTML} />
+      </span>
     </div>
+
+    <!-- Autores y fechas -->
+    <div class="flex flex-wrap gap-4 text-[12px] text-subtle font-mono mb-6
+                pb-6 border-b border-border">
+      <span>✍️ {autores.join(', ')}</span>
+      <span>📅 {fechaEscrito.toLocaleDateString('es-CO', { dateStyle: 'medium' })}</span>
+      <span>🔄 {fechaUltimaActualizacion.toLocaleDateString('es-CO', { dateStyle: 'medium' })}</span>
+    </div>
+
+    <!-- Contenido Markdown -->
+    <div class="prose prose-neutral dark:prose-invert max-w-none">
+      <Content />
+    </div>
+
+  </div>
 </Layout>
