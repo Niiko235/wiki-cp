@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro'
+import LayoutContent from '../../layouts/LayoutContent.astro'
 import { getCollection, render } from 'astro:content'
 import katex from 'katex'
 
@@ -26,43 +26,45 @@ const complejidadHTML = katex.renderToString(complejidad, { throwOnError: false 
 const categoria       = teoria.id.split('/')[0]
 ---
 
-<Layout titulo={titulo}>
-  <div class="max-w-3xl mx-auto px-6 py-10">
+<LayoutContent titulo={titulo}>
+  <main class="flex-1 h-full overflow-y-auto px-6 py-10">
+      <div class="max-w-4xl mx-auto ">
 
-    <!-- Breadcrumb -->
-    <p class="text-[11px] font-mono text-subtle mb-4">
-      Documentación
-      <span class="mx-1 text-border-dark">›</span>
-      <span class="capitalize">{categoria}</span>
-      <span class="mx-1 text-border-dark">›</span>
-      <span class="text-muted">{titulo}</span>
-    </p>
+      <p class="text-[11px] font-mono text-subtle mb-4">
+        Documentación
+        <span class="mx-1 text-border-dark">›</span>
+        <span class="capitalize">{categoria}</span>
+        <span class="mx-1 text-border-dark">›</span>
+        <span class="text-muted">{titulo}</span>
+      </p>
 
-    <!-- Título -->
-    <h1 class="text-3xl font-extrabold text-title tracking-tight leading-tight mb-4">
-      {titulo}
-    </h1>
 
-    <!-- Badges -->
-    <div class="flex flex-wrap gap-2 mb-6">
-      <span class="text-[11px] font-semibold px-3 py-1 rounded-full border
-                   text-grafos-text bg-grafos-bg border-grafos-border font-mono">
-        <span set:html={complejidadHTML} />
-      </span>
+      <h1 class="text-3xl font-extrabold text-title tracking-tight leading-tight mb-4">
+        {titulo}
+      </h1>
+
+
+      <div class="flex flex-wrap gap-2 mb-6">
+        <span class="text-[11px] font-semibold px-3 py-1 rounded-full border
+                    text-grafos-text bg-grafos-bg border-grafos-border font-mono">
+          <span set:html={complejidadHTML} />
+        </span>
+      </div>
+
+
+      <div class="flex flex-wrap gap-4 text-[12px] text-subtle font-mono mb-6
+                  pb-6 border-b border-border">
+        <span>✍️ {autores.join(', ')}</span>
+        <span>📅 {fechaEscrito.toLocaleDateString('es-CO', { dateStyle: 'medium' })}</span>
+        <span>🔄 {fechaUltimaActualizacion.toLocaleDateString('es-CO', { dateStyle: 'medium' })}</span>
+      </div>
+
+
+      <div class="prose prose-neutral dark:prose-invert max-w-none">
+        <Content />
+      </div>
+
+
     </div>
-
-    <!-- Autores y fechas -->
-    <div class="flex flex-wrap gap-4 text-[12px] text-subtle font-mono mb-6
-                pb-6 border-b border-border">
-      <span>✍️ {autores.join(', ')}</span>
-      <span>📅 {fechaEscrito.toLocaleDateString('es-CO', { dateStyle: 'medium' })}</span>
-      <span>🔄 {fechaUltimaActualizacion.toLocaleDateString('es-CO', { dateStyle: 'medium' })}</span>
-    </div>
-
-    <!-- Contenido Markdown -->
-    <div class="prose prose-neutral dark:prose-invert max-w-none">
-      <Content />
-    </div>
-
-  </div>
-</Layout>
+  </main>
+</LayoutContent>
