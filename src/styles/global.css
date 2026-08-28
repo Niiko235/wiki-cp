@@ -1,10 +1,12 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 @custom-variant dark (&:where(.dark, .dark *));
+@import "@fontsource-variable/roboto";
 
 html,
 	body {
 		min-height: 100%;
+		font-family: var(--font-sans);
 	}
 
 
@@ -76,6 +78,7 @@ html,
 }
 
 @theme {
+	--font-sans: 'Roboto Variable', sans-serif;
   
 	--color-base:        var(--base);
 	--color-surface:     var(--surface);
