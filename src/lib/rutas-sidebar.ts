@@ -48,10 +48,12 @@ export const rutas : rutasType = [
 //     nombreCategoria: "Grafos",
 //     contenido: []
 // },
-// {
-//     nombreCategoria: "Flujos",
-//     contenido: []
-// },
+{
+    nombreCategoria: "Flujos",
+    contenido: [
+        {nombreContenido: "Bipartito maximo", slugContenido: "flujos-matching-bipartito"},
+    ]
+},
  {
      nombreCategoria: "Strings",
      contenido: [
