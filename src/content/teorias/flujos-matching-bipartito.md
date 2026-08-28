@@ -1,9 +1,9 @@
 ---
-autores: ["Nicolas Plaza, "]
+autores: ["Nicolas Plaza"]
 titulo: "Bipartito maximo"
 fechaEscrito: 2026-08-28
 fechaUltimaActualizacion: 2026-08-28
-complejidad: Log(n)
+complejidad: '\mathcal{O}(E\sqrt{V})'
 prerequisitos: []
 problemas: []
 materialExtra: []
