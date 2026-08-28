@@ -54,20 +54,22 @@ export const rutas : rutasType = [
         {nombreContenido: "Bipartito maximo", slugContenido: "flujos-matching-bipartito"},
     ]
 },
- {
-     nombreCategoria: "Strings",
-     contenido: [
+{
+    nombreCategoria: "Strings",
+    contenido: [
         {nombreContenido: "Algoritmo de KMP", slugContenido: "strings-kmp"},
-     ]
- },
+    ]
+},
 // {
 //     nombreCategoria: "Matemáticas",
 //     contenido: []
 // },
-// {
-//     nombreCategoria: "Geometria",
-//     contenido: []
-// }
+{
+    nombreCategoria: "Geometria",
+    contenido: [
+        {nombreContenido: "Convex Hull", slugContenido: "geometria-convex-hull"},
+    ]
+},
 ]
 
 
