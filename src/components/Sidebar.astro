@@ -1,8 +1,25 @@
 ---
+import { rutas } from "../lib/rutas-sidebar";
 ---
 
 
 
-<aside class="bg-cyan-500">
-    <h1>holis</h1>
+<aside class="border-r border-r-border-dark text-sm h-full overflow-y-auto w-68 space-y-2 py-2">
+   {rutas.map(ruta => (
+    <details class="group select-none">
+        <summary class="font-semibold text-primary flex justify-between mx-2">
+            {ruta.nombreCategoria.toUpperCase()}
+            <svg class="w-4 h-4 text-neutral-400 transition-transform duration-200 group-open:rotate-90" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+        </summary>
+        {ruta.contenido.map(contenido => (
+            <a  href={`${contenido.slugContenido}`}>
+                <div class="border-l border-border mx-2 py-1.25 px-2 text-muted hover:text-primary">
+                    <h4 class="truncate">{contenido.nombreContenido}</h4>
+                </div>
+            </a>
+        ))}
+    </details>
+   ))}
 </aside>
