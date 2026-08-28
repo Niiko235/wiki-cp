@@ -56,6 +56,19 @@ html,
 	--geometria-bg:     #e6f3f1;
 	--geometria-border: #afd3cf;
 
+	/* ── Niveles de dificultad ── */
+	--bronce-text:   #7a3d00;
+	--bronce-bg:     #fde8cc;
+	--bronce-border: #f0c07a;
+
+	--plata-text:    #374f63;
+	--plata-bg:      #e4eaf0;
+	--plata-border:  #b0c0d0;
+
+	--oro-text:      #7a5c00;
+	--oro-bg:        #fef3cc;
+	--oro-border:    #e8d080;
+
 
   }
 
@@ -123,6 +136,19 @@ html,
 	--color-geometria-text: var(--geometria-text);
 	--color-geometria-bg: var(--geometria-bg);
 	--color-geometria-border: var(--geometria-border);
+
+
+	--color-bronce-text:   var(--bronce-text);
+	--color-bronce-bg:     var(--bronce-bg);
+	--color-bronce-border: var(--bronce-border);
+
+	--color-plata-text:    var(--plata-text);
+	--color-plata-bg:      var(--plata-bg);
+	--color-plata-border:  var(--plata-border);
+
+	--color-oro-text:      var(--oro-text);
+	--color-oro-bg:        var(--oro-bg);
+	--color-oro-border:    var(--oro-border);
 
 
 }
