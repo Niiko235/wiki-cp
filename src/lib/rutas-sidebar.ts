@@ -52,10 +52,12 @@ export const rutas : rutasType = [
 //     nombreCategoria: "Flujos",
 //     contenido: []
 // },
-// {
-//     nombreCategoria: "Strings",
-//     contenido: []
-// },
+ {
+     nombreCategoria: "Strings",
+     contenido: [
+        {nombreContenido: "Algoritmo de KMP", slugContenido: "strings-kmp"},
+     ]
+ },
 // {
 //     nombreCategoria: "Matemáticas",
 //     contenido: []
