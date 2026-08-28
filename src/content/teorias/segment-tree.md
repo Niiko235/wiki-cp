@@ -2,17 +2,13 @@
 autores: ["Nicolas Plaza, "]
 titulo: "Segment tree"
 fechaEscrito: 2026-07-12
-fechaUltimaActualizacion: 2026-07-12
-complejidad: N^2
-prerequisitos: [{
-  nombreTema: "Arboles",
-  ulrTema: "teoria/arboles"
-}]
+fechaUltimaActualizacion: 2026-08-27
+complejidad: Log(n)
+prerequisitos: []
 problemas: []
 materialExtra: []
 ---
 
-# Segment Tree
 El segment tree es un albol binario que se nos presenta como la solucion cuando tenemos un conjunto de elementos y se requiere hacer queries en rango y actualizaciones sobre estos.
 
 ## ¿Cuando utilizar el segmentTree? - Generalizaciones
@@ -42,8 +38,8 @@ Ahora bien ¿Comó introducimos nuestro array de numeros en el? arrancaremos des
 Ya con los atributos de nuestra raiz, podemos pasar a calcular su valor. Pero, para esto es necesario calcular sus hijos primero, para ello le daremos los atributos de sus hijos de la siguiente manera:
 * el ID del hijo izquierdo = id del padre * 2
 * el ID del hijo derecho = id del padre * 2 + 1
-* El rango del hijo izquierdo = (el i del padre, i + j / 2)
-* El rango del hijo derecho = ((i + j / 2) + 1, el J del padre)
+* El rango del hijo izquierdo = [el i del padre, (i + j) / 2]
+* El rango del hijo derecho = [(i + j) / 2 + 1, el J del padre]
 
 ![alt text](../../../public/teoria/segment-tree/st-3.png)
 
@@ -62,8 +58,8 @@ arbol[nodo] = arbol[hijoIzq] + arbol[hijoDer]
 Una vez construido el arbol, podemos hacer consultas en rango, es decir: dada una consulta (l, r) queremos saber la suma de todos los elementos entre esas dos posiciones.
 Para ello recorremos el arbol desde la raiz, y en cada nodo evaluamos 3 posibles casos con respecto al rango del nodo actual (tl, tr) y el rango de la consulta (l, r):
 
-* Cubierto completo: el rango del nodo esta completamente dentro de la consulta, es decir ``l <= tl && r >= tr``. En este caso retornamos directamente el valor del nodo, no necesitamos bajar mas.
-* Sin intersección: el rango del nodo esta completamente fuera de la consulta, es decir ``l > tr || r < tl ``. En este caso retornamos el elemento neutro, que para la suma es 0.
+* Cubierto completo: el rango del nodo esta completamente dentro de la consulta, es decir **_l <= tl && r >= tr_**. En este caso retornamos directamente el valor del nodo, no necesitamos bajar mas.
+* Sin intersección: el rango del nodo esta completamente fuera de la consulta, es decir **_l > tr || r < tl_** . En este caso retornamos el elemento neutro, que para la suma es 0.
 * Intersección parcial: el rango del nodo se cruza parcialmente con la consulta. En este caso bajamos a ambos hijos y combinamos sus resultados.
 
 Para hacer la query necesitamos los siguientes parametros 
@@ -80,7 +76,7 @@ _La raiz cae en el ultimo caso que es interseccion parcial, por ende su resultad
 
 ![alt text](../../../public/teoria/segment-tree/st-12.png)
 
-__
+
 
 
 ## Actualización de nodos 
