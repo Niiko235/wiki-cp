@@ -35,7 +35,9 @@ export const rutas : rutasType = [
 {
     nombreCategoria: "Structuras",
     contenido: [
-        {nombreContenido: "Segment tree", slugContenido: "segment-tree"},
+        {nombreContenido: "Segment tree", slugContenido: "estructuras-segment-tree"},
+        {nombreContenido: "Algoritmo de MO'S", slugContenido: "estructuras-mos"},
+        
     ]
 },
 // {
