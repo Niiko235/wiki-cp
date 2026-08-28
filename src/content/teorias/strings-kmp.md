@@ -9,3 +9,6 @@ problemas: []
 materialExtra: []
 ---
 Algoritmo de KMP 
+
+
+soy severo programador
