@@ -44,10 +44,12 @@ export const rutas : rutasType = [
 //     nombreCategoria: "Programación dinamica",
 //     contenido: []
 // },
-// {
-//     nombreCategoria: "Grafos",
-//     contenido: []
-// },
+{
+    nombreCategoria: "Grafos",
+    contenido: [
+        {nombreContenido: "Kruskal", slugContenido: "grafos-kruskal"}
+    ]
+},
 {
     nombreCategoria: "Flujos",
     contenido: [
