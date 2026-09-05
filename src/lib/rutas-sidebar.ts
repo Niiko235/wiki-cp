@@ -67,7 +67,7 @@ export const rutas : rutasType = [
 {
     nombreCategoria: "Geometria",
     contenido: [
-        {nombreContenido: "Representación de puntos y vectores de 2d", slugContenido: "geometria-representacion-punto-vector-2D"},
+        {nombreContenido: "Representación de puntos y vectores de 2d", slugContenido: "geometria-representacion-punto-vector-2d"},
         {nombreContenido: "Convex Hull", slugContenido: "geometria-convex-hull"},
     ]
 },

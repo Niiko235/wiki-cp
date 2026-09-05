@@ -23,7 +23,7 @@ const {
 
 const { Content }    = await render(teoria)
 const complejidadHTML = katex.renderToString(complejidad, { throwOnError: false })
-const categoria       = teoria.id.split('/')[0]
+const categoria       = teoria.id.split('-')[0]
 ---
 
 <LayoutContent titulo={titulo}>
