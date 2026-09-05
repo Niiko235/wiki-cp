@@ -3,7 +3,7 @@ autores: ["Nicolas Plaza, "]
 titulo: "Segment tree"
 fechaEscrito: 2026-07-12
 fechaUltimaActualizacion: 2026-08-27
-complejidad: Log(n)
+complejidad: \mathcal{O}(n \cdot log(n))
 prerequisitos: []
 problemas: []
 materialExtra: []
