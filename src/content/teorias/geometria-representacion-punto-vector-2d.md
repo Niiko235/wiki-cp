@@ -120,9 +120,9 @@ Estas cuatro operaciones son las piezas base sobre las cuales se construyen lueg
 
 - Anton, H., & Rorres, C. (2014). *Elementary Linear Algebra: Applications Version* (11th ed.). Wiley. — Definición formal de vector como magnitud y dirección, y de las operaciones básicas (suma, resta, multiplicación por escalar).
 
-    >Disponible en: https://faculty.ksu.edu.sa/sites/default/files/howard_anton_chris_rorres_elementary_linear_algebra_applications_version_11th_edition_1.pdf - (en la pagina 131 empieza a hablar de los vectores)
+    >Disponible en: [click aquí](https://faculty.ksu.edu.sa/sites/default/files/howard_anton_chris_rorres_elementary_linear_algebra_applications_version_11th_edition_1.pdf) - (en la pagina 131 empieza a hablar de los vectores)
 - OpenStax. (2016). *University Physics Volume 1*, Sección 4.1 "Displacement and Velocity Vectors". Rice University. 
-    >Disponible en: https://openstax.org/books/university-physics-volume-1/pages/4-1-displacement-and-velocity-vectors — Distinción formal entre **vector de posición** (position vector) y **vector de desplazamiento** (displacement vector), que es la base de la explicación de por qué un vector "parte del origen". (Libro de texto universitario de acceso abierto y gratuito.)
+    >Disponible en: [click aquí](https://openstax.org/books/university-physics-volume-1/pages/4-1-displacement-and-velocity-vectors) — Distinción formal entre **vector de posición** (position vector) y **vector de desplazamiento** (displacement vector), que es la base de la explicación de por qué un vector "parte del origen". (Libro de texto universitario de acceso abierto y gratuito.)
 
 > **Nota:** el ejemplo del poste y el árbol, la analogía de "caja negra", y las imágenes son elaboración propia con fines didácticos para este documento; no provienen de las referencias anteriores.
 
