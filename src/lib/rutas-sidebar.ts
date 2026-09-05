@@ -8,11 +8,13 @@ type rutasType = {
 
 
 export const rutas : rutasType = [
-// {
-//     nombreCategoria: "Introducción",
-//     contenido: []
+{
+    nombreCategoria: "Introducción",
+    contenido: [
+        {nombreContenido: "Bienvenida", slugContenido: "introduccion-bienvenida"},
+    ]
 
-// },
+},
 // {
 //     nombreCategoria: "Tiempo de complejidad",
 //     contenido: []
