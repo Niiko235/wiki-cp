@@ -115,13 +115,17 @@ struct mbm {
     return false;
   }
 
-  vector<pair<int, int> > go_matching() {   
+  vector<pair<int, int> > go_matching() {
+       
     vector<pair<int, int> > ans;
-    fill(all(partner), -1); // Inicialmente, ningún nodo derecho tiene pareja
+
+    // Inicialmente, ningún nodo derecho tiene pareja
+    fill(all(partner), -1); 
     
     // Intentamos emparejar cada nodo de la izquierda
     forn (i, l) {
-      fill(all(vs), false); // Reiniciamos los visitados para el DFS de cada nodo
+      // Reiniciamos los visitados para el DFS de cada nodo
+      fill(all(vs), false); 
       matching(i);
     }
     
