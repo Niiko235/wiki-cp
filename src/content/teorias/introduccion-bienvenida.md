@@ -3,7 +3,7 @@ autores: ["Nicolas Plaza"]
 titulo: "Bienvenida"
 fechaEscrito: 2026-09-05
 fechaUltimaActualizacion: 2026-09-05
-complejidad: Ninguna
+complejidad: El limite lo colocas tú
 prerequisitos: []
 problemas: []
 materialExtra: []
@@ -131,7 +131,7 @@ Esta wiki es construida y mantenida por el semillero. Si quieres agregar un tema
 
 Este proyecto nació en **Florencia, Caquetá**, en la Universidad de la Amazonia, con la meta de llevar un equipo al mundial del ICPC. Cada algoritmo que documentamos es un paso más cerca.
 
-> *"Dime y lo olvido, enséñame y lo recuerdo, involúcrame y lo aprendo"*
+> *Dime y lo olvido, enséñame y lo recuerdo, involúcrame y lo aprendo*
 > — Benjamín Franklin
 
 ![Integrantes del semillero UDLA de programación comptetiva 2026](../../../public/extras/UDLA-2026.png)
