@@ -53,6 +53,7 @@ export const rutas : rutasType = [
 {
     nombreCategoria: "Flujos",
     contenido: [
+        {nombreContenido: "Flujo maximo", slugContenido: "flujos-flujo-maximo"},
         {nombreContenido: "Bipartito maximo", slugContenido: "flujos-matching-bipartito"},
     ]
 },
