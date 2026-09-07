@@ -117,7 +117,7 @@ En el peor de los casos $R$ recorre todo el arreglo de izquierda a derecha ($N$ 
 
 ---
 
-imagen (no me acuerdo de como ponerla #1)
+![](../../../public/teoria/estructuras/mos/mos-1.png)
 
 ---
 
