@@ -4,7 +4,7 @@ titulo: "Algoritmo de KMP"
 fechaEscrito: 2026-08-28
 fechaUltimaActualizacion: 2026-08-28
 complejidad: O(n + m)
-prerequisitos: [Arreglo LPS, Prefijos-Sufijos Propios, Big(O), Arrays]
+prerequisitos: []
 problemas: []
 materialExtra: []
 ---
