@@ -3,7 +3,7 @@ autores: ["Nicolas Plaza"]
 titulo: "Bienvenida"
 fechaEscrito: 2026-09-05
 fechaUltimaActualizacion: 2026-09-05
-complejidad: El limite lo colocas tú
+complejidad: El-limite-lo-colocas-tú
 prerequisitos: []
 problemas: []
 materialExtra: []
