@@ -1,0 +1,45 @@
+---
+import {Icon} from 'astro-icon/components'
+import {creadores} from '../lib/info-autores'
+---
+
+
+<section class="mb-8 pb-8 border-b border-border">
+    <h2 class="text-xs font-mono font-semibold tracking-widest text-muted mb-6">AUTORES OFICIALES</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        {
+            creadores.map(creador => (
+                <div class="space-y-3 py-4 px-4 border border-border rounded-xl flex flex-col">
+                    <div class="flex gap-4">
+                        {creador.avatar ? (
+                            <figure class="size-12 rounded-full shrink-0 overflow-hidden">
+                                <img 
+                                    src={creador.avatar} 
+                                    alt={`Avatar del creador ${creador.nombre}`} 
+                                    class="w-full h-full object-cover"
+                                />
+                            </figure>
+                        ) : (
+                            <div class="size-12 border flex justify-center items-center rounded-full font-bold shrink-0">{creador.nombre.split(' ').map(n => n[0]).join('').toUpperCase()}</div>
+                        )
+                        }
+                        <div class="">
+                            <h3 class="-mb-1 font-bold">{creador.nombre}</h3>
+                            <p>{`${creador.carrera} · ${creador.semestre}`}</p>
+                        </div>
+                    </div>
+                    <p>{creador.descripcion}</p>
+                    <a 
+                    href={`https://github.com/${creador.perfilGit}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    class="px-2 py-1 border border-border rounded-md flex items-center gap-1 w-fit mt-auto hover:-translate-y-1">
+                        <Icon name="simple-icons:github" size={18}/>
+                        {`@${creador.perfilGit}`}
+                    </a>
+                </div>
+            ))
+        }
+    </div>
+</section>
