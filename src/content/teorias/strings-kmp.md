@@ -37,45 +37,45 @@ Antes de empezar este articulo, debes tener claro los siguientes conocimientos
 ## Explicación KMP
 Como ya definimos KMP como un algoritmo para búsqueda de patrones en una cadena de texto usando una tabla LPS, veamos exactamente cómo funciona gráficamente este algoritmo. Imaginemos que tenemos la cadena de texto `ABABDABACDABABCABAB` y un patrón `ABABAC`.
 
-![Tabla LPS Inicial para el patrón ABABAC](../../../public/teoria/kmp/kmp-momento-0.png)
+![Tabla LPS Inicial para el patrón ABABAC](../../../public/teoria/strings/kmp/kmp-momento-0.png)
 *Imagen 0: Vista general del arreglo LPS precalculado para el patrón ABABAC.*
 
 Hacemos nuestra comparación paso a paso hasta que encontramos una falla. Ahora, lo que hace el algoritmo es revisar el arreglo LPS en la posición anterior (donde las letras sí coincidieron) para saber qué tanto podemos reciclar del patrón y no desechar todo el progreso.
 
-![Falla en la comparación inicial](../../../public/teoria/kmp/kmp-momento-1.png)
+![Falla en la comparación inicial](../../../public/teoria/strings/kmp/kmp-momento-1.png)
 *Momento 1: Los punteros `i` (texto) y `j` (patrón) avanzan juntos hasta el índice 4. Aquí ocurre una falla: el texto tiene una 'D' y el patrón una 'A'. El progreso validado hasta ahora es la cadena 'ABAB'.*
 
-![Consulta en el arreglo LPS](../../../public/teoria/kmp/kmp-momento-2.png)
+![Consulta en el arreglo LPS](../../../public/teoria/strings/kmp/kmp-momento-2.png)
 *Momento 2: Consultamos el arreglo LPS. Como el fallo fue en `j = 4`, miramos el índice anterior `j - 1`. `lps[3]` nos da un valor de 2, lo que significa que el prefijo-sufijo más largo de la cadena que ya habíamos verificado ('ABAB') es 'AB'.*
 
 Como el LPS me dice hasta qué punto una parte del patrón es igual a otra parte de sí mismo, esto me permite no reiniciar la comparación desde el principio del patrón tras un fallo. En vez de eso, consulto en el LPS cuál es el prefijo-sufijo más grande de lo que llevaba confirmado hasta el fallo (`ABAB`), que en este caso es `AB` (tamaño 2). Como ya sé que esas dos letras coinciden garantizado, corro el patrón dos casillas a la derecha y no vuelvo a comparar `AB` contra el texto — directamente retomo la comparación desde la letra que sigue después de ese prefijo reciclado (posición `j = 2` del patrón) contra la misma letra del texto donde había fallado (`i = 4`).
 
-![Tercer intento de comparación](../../../public/teoria/kmp/kmp-momento-3.png)
+![Tercer intento de comparación](../../../public/teoria/strings/kmp/kmp-momento-3.png)
 *Momento 3: Se retoma la comparación. Ahora evaluamos la letra 'D' del texto (`i = 4`) con la letra en `j = 2` del patrón ('A'). Ocurre una nueva divergencia.*
 
 Como la comparación vuelve a fallar, hacemos el mismo proceso: vamos a `lps[j - 1]`, o sea `lps[2 - 1]`. Entonces `j` va a tomar el valor de `lps[1]`, que es 0. Esto representa que en la cadena `AB` hay únicamente 0 prefijos-sufijos iguales, por lo que `j = 0`. Volvemos a evaluar el patrón contra el texto desde la posición 0.
 
-![Cuarto intento de comparación](../../../public/teoria/kmp/kmp-momento-4.png)
+![Cuarto intento de comparación](../../../public/teoria/strings/kmp/kmp-momento-4.png)
 *Momento 4: El puntero `j` retrocede a 0. Comparamos 'D' en el texto contra 'A' en el patrón. Vuelve a fallar.*
 
 Y tenemos un problema: al volver a evaluar el patrón desde la posición 0, vemos que ya no podemos retroceder más. Esto significa que no hemos podido encontrar una coincidencia parcial posible en esta parte de la cadena, lo que implica que debemos avanzar el puntero `i` en el texto para seguir evaluando.
 
-![Desplazamiento del puntero i](../../../public/teoria/kmp/kmp-momento-5.png)
+![Desplazamiento del puntero i](../../../public/teoria/strings/kmp/kmp-momento-5.png)
 *Momento 5: Al no haber similitudes posibles, el puntero `i` en el texto se ve obligado a avanzar y continuar la lectura de los siguientes caracteres, empezando una nueva racha de aciertos ('ABA').*
 
-![Avance de los punteros con nuevas coincidencias](../../../public/teoria/kmp/kmp-momento-6.png)
+![Avance de los punteros con nuevas coincidencias](../../../public/teoria/strings/kmp/kmp-momento-6.png)
 *Momento 6: El puntero avanza hasta el índice `i = 8` (letra 'C') y `j = 3` (letra 'B'). Se detecta un nuevo fallo en el texto.*
 
-![Revisión de LPS tras el nuevo fallo](../../../public/teoria/kmp/kmp-momento-7.png)
+![Revisión de LPS tras el nuevo fallo](../../../public/teoria/strings/kmp/kmp-momento-7.png)
 *Momento 7: Nuevamente evitamos desechar el proceso. Recurrimos a `lps[2]` (que es 1), por lo que `j` baja a 1. Comparamos la 'C' contra la 'B'. Falla de nuevo.*
 
-![Nueva consulta y retroceso de j a 0](../../../public/teoria/kmp/kmp-momento-8.png)
+![Nueva consulta y retroceso de j a 0](../../../public/teoria/strings/kmp/kmp-momento-8.png)
 *Momento 8: Al fallar, consultamos `lps[0]` que es 0. El puntero `j` retrocede hasta 0. Se compara la 'C' del texto contra la 'A' del patrón. Otra falla.*
 
-![Avance obligado de i tras agotar el patrón](../../../public/teoria/kmp/kmp-momento-9.png)
+![Avance obligado de i tras agotar el patrón](../../../public/teoria/strings/kmp/kmp-momento-9.png)
 *Momento 9: Habiendo agotado las opciones en el patrón (`j = 0`), obligatoriamente debemos correr el texto avanzando `i` a la posición 9 (letra 'D'). La 'D' choca nuevamente contra la 'A', forzando a `i` a seguir moviéndose.*
 
-![Siguiente secuencia de coincidencias parciales](../../../public/teoria/kmp/kmp-momento-10.png)
+![Siguiente secuencia de coincidencias parciales](../../../public/teoria/strings/kmp/kmp-momento-10.png)
 *Momento 10: Eventualmente `i` avanza logrando una excelente racha (`ABABA`). Al llegar a la 'C' del texto en `i = 14`, y compararla contra la 'A' en `j = 4` del patrón, vuelve a ocurrir un fallo, listo para activar nuevamente el reciclaje mediante la tabla LPS.*
 
 <!-- ## Restricciones

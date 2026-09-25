@@ -47,14 +47,16 @@ Sera la variable que va a
 ## Explicacion
 
 No ponemos a i = 0 debido a que para una subcadena de una sola letra, el único prefijo propio y el único sufijo propio posibles son la cadena vacía (no hay espacio para nada más corto que el total menos 1 carácter). Por eso lps[0] es siempre 0, para cualquier patrón, sin excepción.
-![](../../../public/teoria/kmp/arreglo-lps-momento-0.png)
+
+![](../../../public/teoria/strings/lps/arreglo-lps-momento-0.png)
 
 Cadena AB no tiene ningun prefijo sufijo iguales, debido a los sufijos en esta parte es solo B y el prefijo es A el cual no son iguales
-![](../../../public/teoria/kmp/arreglo-lps-momento-1.png)
+
+![](../../../public/teoria/strings/lps/arreglo-lps-momento-1.png)
 
 Cadena ABA si tiene prefijos sufijos iguales, debido a que los sufijos en esta parte son: BA, A y los prefijos son: A, AB aqui hay dos iguales que son A, entonces esto lo ponemos en nuestro vvector lps q me dice q hasta esa parte de la cadena solo hay un prefijo sufijo de tamaño 1 que es A y A
 
-![](../../../public/teoria/kmp/arreglo-lps-momento-2.png)
+![](../../../public/teoria/strings/lps/arreglo-lps-momento-2.png)
 
 
 avanzamos len que me dice a mi si el siguiente prefijo q es AB tambien esta como sufijo en la cadena ABAB en este caso si, debido a los prefijos para esta cadena son:
@@ -63,14 +65,14 @@ y los sufijos:
 B, AB, BAB
 aqui hay una coincidencia con AB que es el prefijo q estamos evaluando con len
 
-![](../../../public/teoria/kmp/arreglo-lps-momento-3.png)
+![](../../../public/teoria/strings/lps/arreglo-lps-momento-3.png)
 
 
 Aqui ya por intuicion sabemos cual es la cadena y su prefijo sufijo mas largo hasta ese momento
 
-![](../../../public/teoria/kmp/arreglo-lps-momento-4.png)
+![](../../../public/teoria/strings/lps/arreglo-lps-momento-4.png)
 
-![](../../../public/teoria/kmp/arrelo-lps-momento-5.png)
+![](../../../public/teoria/strings/lps/arrelo-lps-momento-5.png)
 
 ## Codigo
 
