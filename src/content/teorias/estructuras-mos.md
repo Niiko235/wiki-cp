@@ -9,20 +9,11 @@ problemas: []
 materialExtra: []
 ---
 
-# Algoritmo de Mo
-
-Imaginemos por un momento que nos dan muchas querys de tipo consulta en rangos de [L, R].
-
-Es bien sabido que cuando miramos querys de este tipo es común pensar que podemos resolverlos con Segment Tree o algunos de sus derivados como el Segment Tree Lazy, Feenwick Tree, etc...
-
-
-Pero no siempre es posible hacer estas consultas con segment tree ya que para que funcionara de manera correcta con segment tree tocaria usar un set por cada nodo para hacer la union correctamente, pero pensar de esa manera nos ocasionaria TLE o MLE por la cantidad de set y la union de estos mismos.
-
 ### Problema Clásico: Elementos distintos en arreglo (Querys)
 
 
 **Se te da un arreglo de tamaño N y Q queries.**  
-Cada query es del tipo [L, R] y debemos responder cuántos elementos distintos existen dentro de ese rango.
+Cada query es del tipo $[L, R]$ y debemos responder **cuántos elementos distintos existen dentro de ese rango**.
 
 | Arreglo A | Consultas [L, R] y Resultados |
 | --- | --- |
@@ -30,6 +21,12 @@ Cada query es del tipo [L, R] y debemos responder cuántos elementos distintos e
 
 
 --- 
+
+
+Es bien sabido que cuando miramos querys de este tipo es común pensar que podemos resolverlos con Segment Tree o algunos de sus derivados como el Segment Tree Lazy, Feenwick Tree, etc...
+
+
+Pero no siempre es posible hacer estas consultas con segment tree ya que para que funcionara de manera correcta con segment tree tocaria usar un set por cada nodo para hacer la union correctamente, pero pensar de esa manera nos ocasionaria TLE o MLE por la cantidad de set y la union de estos mismos.
 
 
 ## Definicion
@@ -229,4 +226,3 @@ Para que esto funcione, `add`/`erase` deben ser **inversas exactas** una de la o
 - El arreglo debe ser **estatico** (sin actualizaciones) al menos de que se use la version de MO'S con actualizaciones.
 - `add` y `remove` deben ser **operaciones reversibles y baratas** (idealmente O(1)), si no se puede actualizar de forma barata, MO'S no es una buena opcion.
 - La complejidad O((N+Q)√N) asume que `add`/`remove` son O(1), si son O(log N), la complejidad sube a O((N+Q)√N log N), lo cual puede no pasar el limite de tiempo si N y Q son grandes.
-
