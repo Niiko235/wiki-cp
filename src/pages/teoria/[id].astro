@@ -19,6 +19,7 @@ const {
   complejidad,
   fechaEscrito,
   fechaUltimaActualizacion,
+  problemas,
 } = data
 
 const { Content }    = await render(teoria)
@@ -64,6 +65,21 @@ const categoria       = teoria.id.split('-')[0]
         <Content/>
       </div>
 
+      {
+        categoria !== 'introduccion' && (
+          <div>
+            <h3>Ejercicios</h3>
+            <div>
+              {problemas.map(problema => (
+                <a>
+                  
+                </a>
+              ))}
+            </div>
+          </div>
+
+        )
+      }
 
     </div>
   </main>
