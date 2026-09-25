@@ -35,11 +35,11 @@ export const creadores : Creadores = [
         semestre: '° semestre'
     },
     {
-        nombre: 'Juan Guzman',
-        descripcion: '',
-        perfilGit: '',
+        nombre: 'Juan Camilo Guzman',
+        descripcion: 'Miembro del semillero desde el segundo semestre. Le gusta la resolucion de problemas, ha participado en el ICPC y le apasiona la arquitectura de software.',
+        perfilGit: 'iamwanka',
         carrera: 'Ing. de Sistemas',
-        semestre: '° semestre'
+        semestre: '8° semestre'
     },
     {
         nombre: 'Santiago Hernandez',
