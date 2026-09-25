@@ -59,9 +59,11 @@ export const rutas : rutasType = [
 {
     nombreCategoria: "Strings",
     contenido: [
+        {nombreContenido: "Arreglo LPS", slugContenido: "strings-lps"},
         {nombreContenido: "Algoritmo de KMP", slugContenido: "strings-kmp"},
-    ]
-},
+        {nombreContenido: "Algoritmo de Z", slugContenido: "strings-z"},
+     ]
+ },
 // {
 //     nombreCategoria: "Matemáticas",
 //     contenido: []
