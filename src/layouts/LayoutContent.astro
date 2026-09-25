@@ -6,23 +6,56 @@ import '../styles/global.css'
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>wiki cp</title>
-		<link
-			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
-		/>	
-	</head>
-	<body class="bg-base h-screen flex flex-col overflow-hidden">
-		<Navbar/>
-		<div class="flex flex-1 min-h-0">
-			<Sidebar/>
-			<slot />
-		</div>
-	</body>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" href="/favicon.ico" />
+        <meta name="generator" content={Astro.generator} />
+        <title>wiki cp</title>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+        />  
+    </head>
+    <body class="bg-base h-screen flex flex-col overflow-hidden">
+        <Navbar showMenuButton={true} />
+        <div class="flex flex-1 min-h-0 relative">
+            <Sidebar/>
+            
+            <!-- Contenedor principal de tu contenido -->
+            <main class="flex-1 overflow-y-auto">
+                <slot />
+            </main>
+        </div>
+
+        <!-- Script para la lógica del Sidebar corregido -->
+        <script>
+            function initSidebar() {
+                // Actualizado a 'sidebar-toggle-btn' para que coincida con el Navbar unificado
+                const menuBtn = document.getElementById('sidebar-toggle-btn');
+                const sidebar = document.getElementById('sidebar-menu');
+                const overlay = document.getElementById('sidebar-overlay');
+
+                function toggleSidebar() {
+                    sidebar?.classList.toggle('-translate-x-full');
+                    overlay?.classList.toggle('hidden');
+                }
+
+                // Limpiar eventos previos para evitar duplicados
+                menuBtn?.removeEventListener('click', toggleSidebar);
+                overlay?.removeEventListener('click', toggleSidebar);
+
+                // Asignar los eventos
+                menuBtn?.addEventListener('click', toggleSidebar);
+                overlay?.addEventListener('click', toggleSidebar);
+            }
+
+            // Ejecutar al cargar la página por primera vez
+            initSidebar();
+
+            // Ejecutar al navegar entre páginas
+            document.addEventListener('astro:page-load', initSidebar);
+        </script>
+    </body>
 </html>

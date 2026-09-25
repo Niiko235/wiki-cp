@@ -8,11 +8,13 @@ type rutasType = {
 
 
 export const rutas : rutasType = [
-// {
-//     nombreCategoria: "Introducción",
-//     contenido: []
+{
+    nombreCategoria: "Introducción",
+    contenido: [
+        {nombreContenido: "Bienvenida", slugContenido: "introduccion-bienvenida"},
+    ]
 
-// },
+},
 // {
 //     nombreCategoria: "Tiempo de complejidad",
 //     contenido: []
@@ -48,13 +50,15 @@ export const rutas : rutasType = [
 //     nombreCategoria: "Grafos",
 //     contenido: []
 // },
-// {
-//     nombreCategoria: "Flujos",
-//     contenido: []
-// },
- {
-     nombreCategoria: "Strings",
-     contenido: [
+{
+    nombreCategoria: "Flujos",
+    contenido: [
+        {nombreContenido: "Bipartito maximo", slugContenido: "flujos-matching-bipartito"},
+    ]
+},
+{
+    nombreCategoria: "Strings",
+    contenido: [
         {nombreContenido: "Arreglo LPS", slugContenido: "strings-lps"},
         {nombreContenido: "Algoritmo de KMP", slugContenido: "strings-kmp"},
         {nombreContenido: "Algoritmo de Z", slugContenido: "strings-z"},
@@ -64,10 +68,13 @@ export const rutas : rutasType = [
 //     nombreCategoria: "Matemáticas",
 //     contenido: []
 // },
-// {
-//     nombreCategoria: "Geometria",
-//     contenido: []
-// }
+{
+    nombreCategoria: "Geometria",
+    contenido: [
+        {nombreContenido: "Representación de puntos y vectores de 2d", slugContenido: "geometria-representacion-punto-vector-2d"},
+        {nombreContenido: "Convex Hull", slugContenido: "geometria-convex-hull"},
+    ]
+},
 ]
 
 
