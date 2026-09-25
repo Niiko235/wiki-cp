@@ -5,7 +5,15 @@ fechaEscrito: 2026-09-04
 fechaUltimaActualizacion: 2026-09-04
 complejidad: empty
 prerequisitos: []
-problemas: []
+problemas: 
+    - nombrePlataforma: Codeforces
+      nombreProblema: XOR and Favorite Number
+      nivelProblema: Plata
+      urlProblema: https://codeforces.com/contest/617/problem/E
+    - nombrePlataforma: Codeforces
+      nombreProblema: Powerful array
+      nivelProblema: Bronce
+      urlProblema: https://codeforces.com/contest/86/problem/D
 materialExtra: []
 ---
 

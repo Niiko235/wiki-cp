@@ -22,17 +22,17 @@ export const creadores : Creadores = [
     },
     {
         nombre: 'Andres Lasso',
-        descripcion: '',
-        perfilGit: '',
+        descripcion: 'Miembro del semillero desde el ultimo curso del colegio. Apasionado a ser bueno en todo pero nunca Experto, le gusta resolver problemas, las matematicas, los videojuegos y la musica. Jugador de micraft desde la 1.7 y Redstoner Engineer.',
+        perfilGit: 'AndresLass0',
         carrera: 'Ing. de Sistemas',
-        semestre: '° semestre'
+        semestre: '6° semestre'
     },
     {
         nombre: 'Hector Echeverry',
-        descripcion: '',
-        perfilGit: '',
+        descripcion: 'Miembro del semillero desde el segundo semestre. Le gusta la resolucion de problemas, le apasiona las matematicas y la geometria.',
+        perfilGit: 'Hecrry',
         carrera: 'Ing. de Sistemas',
-        semestre: '° semestre'
+        semestre: '5° semestre'
     },
     {
         nombre: 'Juan Camilo Guzman',
@@ -43,10 +43,10 @@ export const creadores : Creadores = [
     },
     {
         nombre: 'Santiago Hernandez',
-        descripcion: '',
-        perfilGit: '',
+        descripcion: 'Miembro del semillero desde el ultimo curso del colegio, le gustan los strings, la musica y enseñar.',
+        perfilGit: 'chanty25',
         carrera: 'Ing. de Sistemas',
-        semestre: '° semestre'
+        semestre: '5° semestre'
     },
 ]
 

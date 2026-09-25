@@ -32,7 +32,7 @@ const teorias = defineCollection({
             urlTema: z.string()
         })),
          problemas: z.array(z.object({
-            plataforma: z.string(),
+            nombrePlataforma: z.string(),
             nombreProblema: z.string(),
             nivelProblema: z.enum(['Bronce', 'Plata', 'Oro']),
             urlProblema: z.string(),
