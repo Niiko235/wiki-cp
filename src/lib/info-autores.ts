@@ -14,7 +14,7 @@ type Creadores = {
 export const creadores : Creadores = [
     {
         nombre: 'Nicolas Plaza',
-        descripcion: 'Fundador del proyecto y tech lead. Lleva 3 años en el semillero y ha participado en el ICPC desde segundo semestre. Le apasiona la arquitectura de software y compartir lo que aprende.',
+        descripcion: 'Fundador del proyecto y tech lead. Lleva 3 años en el semillero y ha participado en el ICPC desde segundo semestre. Le apasiona mucho los deportes, bailar y compartir lo que aprende.',
         perfilGit: 'niiko235',
         carrera: 'Ing. de Sistemas',
         semestre: '8° semestre',
