@@ -18,7 +18,6 @@ export const creadores : Creadores = [
         perfilGit: 'niiko235',
         carrera: 'Ing. de Sistemas',
         semestre: '8° semestre',
-        avatar: '../../public/avatars/nico.png'
     },
     {
         nombre: 'Andres Lasso',
