@@ -1,0 +1,17 @@
+---
+import { colbaradores } from "../lib/info-autores";
+---
+
+
+<section class="">
+    <h2 class="text-xs font-semibold tracking-widest font-mono text-muted mb-4">COLABORADORES</h2>
+    <div class="flex flex-wrap gap-2">
+        {
+            colbaradores.map(colaborador => (
+                <div class="px-2 py-1 border border-border rounded-full">
+                    {colaborador}
+                </div>
+            ))
+        }
+    </div>
+</section>

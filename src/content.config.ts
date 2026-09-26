@@ -29,9 +29,10 @@ const teorias = defineCollection({
         complejidad: z.string(),
         prerequisitos: z.array(z.object({
             nombreTema: z.string(),
-            ulrTema: z.string()
+            urlTema: z.string()
         })),
          problemas: z.array(z.object({
+            nombrePlataforma: z.string(),
             nombreProblema: z.string(),
             nivelProblema: z.enum(['Bronce', 'Plata', 'Oro']),
             urlProblema: z.string(),

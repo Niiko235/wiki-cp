@@ -1,4 +1,8 @@
 ---
+
+import Colaboradores from "../components/Colaboradores.astro";
+import Creators from "../components/Creators.astro";
+import HeaderThanks from "../components/HeaderThanks.astro";
 import Layout from "../layouts/Layout.astro";
 
 
@@ -6,5 +10,9 @@ import Layout from "../layouts/Layout.astro";
 
 
 <Layout>
-    <h1>Agradecimientos a los agradecidos 🙏🏻😈</h1>
+    <main class="max-w-4xl w-full p-4 mx-auto">
+        <HeaderThanks/>
+        <Creators/>
+        <Colaboradores/>
+    </main>
 </Layout>

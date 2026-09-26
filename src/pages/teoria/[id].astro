@@ -2,6 +2,8 @@
 import LayoutContent from '../../layouts/LayoutContent.astro'
 import { getCollection, render } from 'astro:content'
 import katex from 'katex'
+import Badge from '../../components/Badge.astro'
+import { Icon } from 'astro-icon/components'
 
 export async function getStaticPaths() {
   const teorias = await getCollection('teorias')
@@ -19,6 +21,7 @@ const {
   complejidad,
   fechaEscrito,
   fechaUltimaActualizacion,
+  problemas,
 } = data
 
 const { Content }    = await render(teoria)
@@ -64,6 +67,88 @@ const categoria       = teoria.id.split('-')[0]
         <Content/>
       </div>
 
+      {
+        categoria !== 'introduccion' && (
+          <div >
+            <h3>Ejercicios</h3>
+            <div class="grid grid-col-1 md:grid-cols-2 xl:grid-cols-3 gap-4" >
+              {problemas.map(problema => {
+                const lvl = problema.nivelProblema.toLowerCase()
+                if(lvl !== 'bronce') return
+                return (
+                   <a href={problema.urlProblema} target="_blank" rel="noopener noreferrer">
+                      <div class="flex items-center justify-between border rounded-xl px-3 py-1.5 border-border">
+                        <div class="min-w-0 flex-1">
+                          <p class="truncate">{problema.nombreProblema}</p>
+                          <span>{problema.nombrePlataforma}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                          <Badge class={`flex items-center gap-1 border bg-${lvl}-bg border-${lvl}-border text-${lvl}-text`}>
+                            <span class={`size-3 rounded-full bg-${lvl}-border`}></span>
+                            <span class="font-semibold">{lvl}</span>
+                          </Badge>
+                          <Icon name="lucide:square-arrow-out-up-right" size={18}/>
+                        </div>
+
+                    </div>
+                  </a>
+                )
+              }
+               
+              )}
+              {problemas.map(problema => {
+                const lvl = problema.nivelProblema.toLowerCase()
+                if(lvl !== 'plata') return
+                return (
+                   <a href={problema.urlProblema} target="_blank" rel="noopener noreferrer">
+                      <div class="flex items-center justify-between border rounded-xl px-3 py-1.5 border-border">
+                        <div class="min-w-0 flex-1">
+                          <p class="truncate">{problema.nombreProblema}</p>
+                          <span>{problema.nombrePlataforma}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                          <Badge class={`flex items-center gap-1 border bg-${lvl}-bg border-${lvl}-border text-${lvl}-text`}>
+                            <span class={`size-3 rounded-full bg-${lvl}-border`}></span>
+                            <span class="font-semibold">{lvl}</span>
+                          </Badge>
+                          <Icon name="lucide:square-arrow-out-up-right" size={18}/>
+                        </div>
+
+                    </div>
+                  </a>
+                )
+              }
+               
+              )}
+              {problemas.map(problema => {
+                const lvl = problema.nivelProblema.toLowerCase()
+                if(lvl !== 'oro') return
+                return (
+                   <a href={problema.urlProblema} target="_blank" rel="noopener noreferrer">
+                      <div class="flex items-center justify-between border rounded-xl px-3 py-1.5 border-border">
+                        <div class="min-w-0 flex-1">
+                          <p class="truncate">{problema.nombreProblema}</p>
+                          <span>{problema.nombrePlataforma}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                          <Badge class={`flex items-center gap-1 border bg-${lvl}-bg border-${lvl}-border text-${lvl}-text`}>
+                            <span class={`size-3 rounded-full bg-${lvl}-border`}></span>
+                            <span class="font-semibold">{lvl}</span>
+                          </Badge>
+                          <Icon name="lucide:square-arrow-out-up-right" size={18}/>
+                        </div>
+
+                    </div>
+                  </a>
+                )
+              }
+               
+              )}
+            </div>
+          </div>
+
+        )
+      }
 
     </div>
   </main>
