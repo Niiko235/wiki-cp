@@ -21,28 +21,28 @@ export const creadores : Creadores = [
     },
     {
         nombre: 'Andres Lasso',
-        descripcion: 'Miembro del semillero desde el ultimo curso del colegio. Apasionado a ser bueno en todo pero nunca Experto, le gusta resolver problemas, las matematicas, los videojuegos y la musica. Jugador de micraft desde la 1.7 y Redstoner Engineer.',
+        descripcion: 'Co-fundador del proyecto y miembro del semillero desde el ultimo curso del colegio. Apasionado a ser bueno en todo pero nunca Experto, le gusta resolver problemas, las matematicas, los videojuegos y la musica. Jugador de micraft desde la 1.7 y Redstoner Engineer.',
         perfilGit: 'AndresLass0',
         carrera: 'Ing. de Sistemas',
         semestre: '6° semestre'
     },
     {
         nombre: 'Hector Echeverry',
-        descripcion: 'Miembro del semillero desde el segundo semestre. Le gusta la resolucion de problemas, le apasiona las matematicas y la geometria.',
+        descripcion: 'Co-fundador del proyecto y miembro del semillero desde el segundo semestre. Le gusta la resolucion de problemas, le apasiona las matematicas y la geometria.',
         perfilGit: 'Hecrry',
         carrera: 'Ing. de Sistemas',
         semestre: '5° semestre'
     },
     {
         nombre: 'Juan Camilo Guzman',
-        descripcion: 'Miembro del semillero desde el segundo semestre. Le gusta la resolucion de problemas, ha participado en el ICPC y le apasiona la arquitectura de software.',
+        descripcion: 'Co-fundador del proyecto y miembro del semillero desde el segundo semestre. Le gusta la resolucion de problemas, ha participado en el ICPC y le apasiona la arquitectura de software.',
         perfilGit: 'iamwanka',
         carrera: 'Ing. de Sistemas',
         semestre: '8° semestre'
     },
     {
         nombre: 'Santiago Hernandez',
-        descripcion: 'Miembro del semillero desde el ultimo curso del colegio, le gustan los strings, la musica y enseñar.',
+        descripcion: 'Co-fundador del proyecto y miembro del semillero desde el ultimo curso del colegio, le gustan los strings, la musica y enseñar.',
         perfilGit: 'chanty25',
         carrera: 'Ing. de Sistemas',
         semestre: '5° semestre'
