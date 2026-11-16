@@ -1,0 +1,97 @@
+---
+import { Icon } from 'astro-icon/components'
+---
+
+<!-- Zoom de imágenes de los docs.
+     No hace falta marcar nada en el markdown: toda imagen dentro de `.prose-wiki` se puede tocar para ampliarla.
+     En escritorio se muestra al tamaño original (sin pasarse de la pantalla); en móvil se muestra más grande
+     que la pantalla y se desplaza con el dedo, para que el texto de los diagramas sea legible. -->
+<dialog
+    id="zoom-dialog"
+    aria-label="Imagen ampliada"
+    class="m-0 size-full max-h-none max-w-none flex-col border-0 bg-transparent p-0 text-white backdrop:bg-black/90 backdrop:backdrop-blur-sm open:flex"
+>
+    <div class="flex shrink-0 items-start justify-between gap-3 p-3">
+        <p id="zoom-caption" class="max-h-10 overflow-y-auto text-sm text-white/80 md:max-h-20"></p>
+        <button
+            id="zoom-close"
+            type="button"
+            aria-label="Cerrar imagen ampliada"
+            class="grid size-11 shrink-0 cursor-pointer place-items-center rounded-md bg-white/10 text-white hover:bg-white/20"
+        >
+            <Icon name="lucide:x" class="size-6" />
+        </button>
+    </div>
+    <div id="zoom-scroll" class="min-h-0 flex-1 overflow-auto overscroll-contain px-3 pb-3">
+        <img id="zoom-img" alt="" class="mx-auto block rounded-lg bg-white dark:brightness-90" />
+    </div>
+</dialog>
+
+<script>
+    const dialog = document.getElementById('zoom-dialog') as HTMLDialogElement | null;
+    const zoomImg = document.getElementById('zoom-img') as HTMLImageElement | null;
+    const caption = document.getElementById('zoom-caption');
+    const scroll = document.getElementById('zoom-scroll');
+    const cerrar = document.getElementById('zoom-close');
+    const SELECTOR = '.prose-wiki img';
+    const ANCHO_MAX_MOVIL = 1100; // px: más grande que la pantalla, para que el texto de los diagramas se lea
+    let ultimo: HTMLImageElement | null = null;
+
+    // Se pueden alcanzar con el teclado; Enter o Espacio las amplía.
+    document.querySelectorAll<HTMLImageElement>(SELECTOR).forEach((img) => {
+        if (!img.closest('a')) img.tabIndex = 0;
+    });
+
+    // Tamaño de la imagen ampliada según la pantalla. Se llama al abrir y de nuevo cuando la imagen
+    // termina de cargar, para usar su ancho real y no ampliar de más una imagen pequeña.
+    function ajustar() {
+        if (!zoomImg || !scroll) return;
+        if (window.matchMedia('(min-width: 768px)').matches) {
+            // Escritorio: tamaño original, sin pasarse de la pantalla
+            zoomImg.style.cssText = 'width:auto;height:auto;max-width:100%;max-height:calc(100dvh - 6.5rem)';
+        } else {
+            // Móvil: más grande que la pantalla y desplazable con el dedo
+            const ancho = Math.min(zoomImg.naturalWidth || ANCHO_MAX_MOVIL, ANCHO_MAX_MOVIL);
+            zoomImg.style.cssText = `width:${ancho}px;height:auto;max-width:none`;
+        }
+        scroll.scrollTop = 0;
+        scroll.scrollLeft = Math.max(0, (scroll.scrollWidth - scroll.clientWidth) / 2); // empieza centrada
+    }
+
+    function abrir(origen: HTMLImageElement) {
+        if (!dialog || !zoomImg) return;
+        ultimo = origen;
+        zoomImg.onload = ajustar;
+        zoomImg.src = origen.currentSrc || origen.src;
+        zoomImg.alt = origen.alt;
+        if (caption) caption.textContent = origen.alt;
+        document.documentElement.classList.add('overflow-hidden');
+        dialog.showModal();
+        ajustar();
+    }
+
+    document.addEventListener('click', (e) => {
+        const img = (e.target as Element | null)?.closest?.(SELECTOR);
+        if (img instanceof HTMLImageElement && !img.closest('a')) abrir(img);
+    });
+
+    document.addEventListener('keydown', (e) => {
+        const activo = document.activeElement;
+        if ((e.key === 'Enter' || e.key === ' ') && activo instanceof HTMLImageElement && activo.matches(SELECTOR)) {
+            e.preventDefault();
+            abrir(activo);
+        }
+    });
+
+    cerrar?.addEventListener('click', () => dialog?.close());
+    // Tocar el fondo (fuera de la imagen) cierra
+    dialog?.addEventListener('click', (e) => {
+        if (e.target === dialog || e.target === scroll) dialog.close();
+    });
+    // Se dispara siempre que el diálogo se cierra, también con la tecla Escape
+    dialog?.addEventListener('close', () => {
+        document.documentElement.classList.remove('overflow-hidden');
+        ultimo?.focus({ preventScroll: true });
+        zoomImg?.removeAttribute('src');
+    });
+</script>

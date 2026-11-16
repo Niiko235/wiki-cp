@@ -1,0 +1,47 @@
+---
+import { Icon } from 'astro-icon/components'
+import { estiloNivel, type Nivel } from '../lib/niveles'
+
+interface Props {
+    problema: {
+        nombreProblema: string
+        nombrePlataforma: string
+        nivelProblema: Nivel
+        urlProblema: string
+    }
+    // Si se pasa, se muestra el tema al que pertenece el problema (página /ejercicios)
+    tema?: { titulo: string; href: string }
+}
+
+const { problema, tema } = Astro.props
+const estilo = estiloNivel[problema.nivelProblema]
+---
+
+<div class={`relative flex items-center justify-between gap-3 rounded-xl border border-l-4 border-border px-3 py-2 transition-colors hover:bg-sidebar ${estilo.borde}`}>
+    <div class="min-w-0 flex-1">
+        <a
+            href={problema.urlProblema}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="block truncate font-medium text-title after:absolute after:inset-0"
+        >
+            {problema.nombreProblema}
+        </a>
+        <p class="text-sm text-body">
+            {problema.nombrePlataforma}
+            {tema && (
+                <>
+                    {' · '}
+                    <a href={tema.href} class="relative z-10 underline decoration-border-dark hover:text-primary">{tema.titulo}</a>
+                </>
+            )}
+        </p>
+    </div>
+    <div class="flex shrink-0 items-center gap-2">
+        <span class={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-sm font-semibold ${estilo.badge}`}>
+            <span class={`size-2.5 rounded-full ${estilo.dot}`}></span>
+            {problema.nivelProblema}
+        </span>
+        <Icon name="lucide:square-arrow-out-up-right" size={18} class="text-body" />
+    </div>
+</div>

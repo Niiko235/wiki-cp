@@ -1,19 +1,26 @@
 type rutasType = {
-    nombreCategoria: string,
+    categoria: string, // slug de una categoría de src/lib/categorias.ts (de ahí salen el nombre y el orden)
     contenido: {
         nombreContenido: string,
-        slugContenido: string;
+        slugContenido: string; // nombre del .md dentro de la carpeta de la categoría (sin .md)
     }[]
 }[]
 
 
 export const rutas : rutasType = [
 {
-    nombreCategoria: "Introducción",
+    categoria: 'introduccion',
     contenido: [
-        {nombreContenido: "Bienvenida", slugContenido: "introduccion-bienvenida"},
+        {nombreContenido: "Bienvenida", slugContenido: "bienvenida"},
     ]
+    
 
+},
+{
+    categoria: 'inicial',
+    contenido: [
+        {nombreContenido: "Estructura de datos Queue", slugContenido: "queue"},
+    ]
 },
 // {
 //     nombreCategoria: "Tiempo de complejidad",
@@ -35,10 +42,10 @@ export const rutas : rutasType = [
 //     contenido: []
 // },
 {
-    nombreCategoria: "Structuras",
+    categoria: 'estructuras',
     contenido: [
-        {nombreContenido: "Segment tree", slugContenido: "estructuras-segment-tree"},
-        {nombreContenido: "Algoritmo de MO'S", slugContenido: "estructuras-mos"},
+        {nombreContenido: "Segment tree", slugContenido: "segment-tree"},
+        {nombreContenido: "Algoritmo de MO'S", slugContenido: "mos"},
         
     ]
 },
@@ -47,24 +54,24 @@ export const rutas : rutasType = [
 //     contenido: []
 // },
 {
-    nombreCategoria: "Grafos",
+    categoria: 'grafos',
     contenido: [
-        {nombreContenido: "Kruskal", slugContenido: "grafos-kruskal"}
+        {nombreContenido: "Kruskal", slugContenido: "kruskal"}
     ]
 },
 {
-    nombreCategoria: "Flujos",
+    categoria: 'flujos',
     contenido: [
-        {nombreContenido: "Flujo maximo", slugContenido: "flujos-flujo-maximo"},
-        {nombreContenido: "Bipartito maximo", slugContenido: "flujos-matching-bipartito"},
+        {nombreContenido: "Flujo maximo", slugContenido: "flujo-maximo"},
+        {nombreContenido: "Bipartito maximo", slugContenido: "matching-bipartito"},
     ]
 },
 {
-    nombreCategoria: "Strings",
+    categoria: 'strings',
     contenido: [
-        {nombreContenido: "Arreglo LPS", slugContenido: "strings-lps"},
-        {nombreContenido: "Algoritmo de KMP", slugContenido: "strings-kmp"},
-        {nombreContenido: "Algoritmo de Z", slugContenido: "strings-z"},
+        {nombreContenido: "Arreglo LPS", slugContenido: "lps"},
+        {nombreContenido: "Algoritmo de KMP", slugContenido: "kmp"},
+        {nombreContenido: "Algoritmo de Z", slugContenido: "z"},
      ]
  },
 // {
@@ -72,10 +79,10 @@ export const rutas : rutasType = [
 //     contenido: []
 // },
 {
-    nombreCategoria: "Geometria",
+    categoria: 'geometria',
     contenido: [
-        {nombreContenido: "Representación de puntos y vectores de 2d", slugContenido: "geometria-representacion-punto-vector-2d"},
-        {nombreContenido: "Convex Hull", slugContenido: "geometria-convex-hull"},
+        {nombreContenido: "Representación de puntos y vectores de 2d", slugContenido: "representacion-punto-vector-2d"},
+        {nombreContenido: "Convex Hull", slugContenido: "convex-hull"},
     ]
 },
 ]

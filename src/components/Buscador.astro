@@ -1,0 +1,285 @@
+---
+import { Icon } from 'astro-icon/components'
+---
+
+<!-- Buscador de la teoría (Pagefind).
+     El índice lo genera la integración `busqueda-pagefind` de astro.config.mjs al hacer `npm run build`;
+     en `npm run dev` no existe y el diálogo lo avisa. Se abre con el botón, con Ctrl/⌘ + K o con la tecla «/». -->
+<button
+    id="buscar-btn"
+    type="button"
+    aria-label="Buscar en la wiki"
+    aria-haspopup="dialog"
+    aria-controls="buscar-dialog"
+    class="grid size-10 cursor-pointer place-items-center rounded-md border border-border bg-sidebar text-muted transition-colors hover:text-title md:flex md:h-9 md:w-52 md:items-center md:gap-2 md:px-3 lg:w-64"
+>
+    <Icon name="lucide:search" class="size-4.5 md:size-4" />
+    <span class="hidden flex-1 text-left text-sm md:inline">Buscar…</span>
+    <kbd id="buscar-atajo" class="hidden rounded border border-border-dark px-1.5 font-sans text-[11px] text-subtle md:inline">Ctrl K</kbd>
+</button>
+
+<dialog
+    id="buscar-dialog"
+    aria-label="Buscar en la wiki"
+    class="m-0 size-full max-h-none max-w-none border-0 bg-transparent p-0 backdrop:bg-black/50 backdrop:backdrop-blur-sm md:mx-auto md:mt-[10vh] md:h-auto md:max-w-2xl"
+>
+    <div class="flex h-full flex-col overflow-hidden bg-card text-body md:h-auto md:max-h-[75vh] md:rounded-xl md:border md:border-border md:shadow-2xl">
+        <div class="flex shrink-0 items-center gap-2 border-b border-border px-4">
+            <Icon name="lucide:search" class="size-5 shrink-0 text-muted" />
+            <input
+                id="buscar-input"
+                type="search"
+                placeholder="Busca un tema: dijkstra, segment tree, flujo…"
+                autocomplete="off"
+                spellcheck="false"
+                role="combobox"
+                aria-expanded="false"
+                aria-controls="buscar-resultados"
+                aria-autocomplete="list"
+                class="h-14 min-w-0 flex-1 bg-transparent text-base text-title outline-none placeholder:text-subtle [&::-webkit-search-cancel-button]:hidden"
+            />
+            <button
+                id="buscar-cerrar"
+                type="button"
+                aria-label="Cerrar búsqueda"
+                class="grid size-9 shrink-0 cursor-pointer place-items-center rounded-md text-muted hover:bg-sidebar hover:text-title"
+            >
+                <Icon name="lucide:x" class="size-5" />
+            </button>
+        </div>
+
+        <div class="min-h-0 flex-1 overflow-y-auto overscroll-contain p-2">
+            <p id="buscar-estado" class="px-3 py-8 text-center text-sm text-subtle" aria-live="polite">
+                Escribe para buscar en los temas de teoría.
+            </p>
+            <ul id="buscar-resultados" role="listbox" aria-label="Resultados" class="flex flex-col gap-1"></ul>
+        </div>
+
+        <div class="hidden shrink-0 gap-4 border-t border-border px-4 py-2 text-[11px] text-subtle md:flex">
+            <span><kbd class="font-sans">↑</kbd> <kbd class="font-sans">↓</kbd> moverse</span>
+            <span><kbd class="font-sans">Enter</kbd> abrir</span>
+            <span><kbd class="font-sans">Esc</kbd> cerrar</span>
+        </div>
+    </div>
+</dialog>
+
+<style is:global>
+    /* Términos encontrados dentro del extracto que devuelve Pagefind */
+    #buscar-resultados mark {
+        background: color-mix(in srgb, var(--text-accent) 22%, transparent);
+        color: var(--text-title);
+        border-radius: 2px;
+        padding: 0 1px;
+    }
+</style>
+
+<script>
+    type SubResultado = { title: string; url: string; anchor?: { element: string } }
+    type Resultado = {
+        url: string
+        excerpt: string
+        meta: { title?: string; categoria?: string; slug?: string }
+        sub_results?: SubResultado[]
+    }
+    type Pagefind = {
+        options: (o: Record<string, unknown>) => Promise<void>
+        debouncedSearch: (q: string, o?: unknown, ms?: number) => Promise<{ results: { data: () => Promise<Resultado> }[] } | null>
+    }
+
+    const MAX_RESULTADOS = 8
+    const btn = document.getElementById('buscar-btn')
+    const dialog = document.getElementById('buscar-dialog') as HTMLDialogElement | null
+    const input = document.getElementById('buscar-input') as HTMLInputElement | null
+    const lista = document.getElementById('buscar-resultados')
+    const estado = document.getElementById('buscar-estado')
+    const cerrar = document.getElementById('buscar-cerrar')
+    const atajo = document.getElementById('buscar-atajo')
+
+    if (atajo && /Mac|iPhone|iPad/.test(navigator.platform)) atajo.textContent = '⌘ K'
+
+    // Pagefind se descarga la primera vez que se abre el buscador, no en cada página
+    let pagefind: Promise<Pagefind | null> | null = null
+    function cargarPagefind() {
+        pagefind ??= (async () => {
+            try {
+                const ruta = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/pagefind/pagefind.js`
+                const pf: Pagefind = await import(/* @vite-ignore */ ruta)
+                await pf.options({ excerptLength: 18 })
+                return pf
+            } catch {
+                return null
+            }
+        })()
+        return pagefind
+    }
+
+    function mostrarEstado(texto: string) {
+        if (!estado) return
+        estado.textContent = texto
+        estado.hidden = texto === ''
+    }
+
+    function opciones() {
+        return Array.from(lista?.querySelectorAll<HTMLAnchorElement>('a[role="option"]') ?? [])
+    }
+
+    let activo = -1
+    function marcar(i: number) {
+        const ops = opciones()
+        if (ops.length === 0) return
+        activo = (i + ops.length) % ops.length
+        ops.forEach((op, j) => {
+            const sel = j === activo
+            op.setAttribute('aria-selected', String(sel))
+            op.classList.toggle('bg-sidebar', sel)
+        })
+        ops[activo].scrollIntoView({ block: 'nearest' })
+        input?.setAttribute('aria-activedescendant', ops[activo].id)
+    }
+
+    // El texto que viene de Pagefind (título, categoría) se inserta como texto; solo el extracto trae HTML (<mark>)
+    function crearResultado(r: Resultado, i: number) {
+        const li = document.createElement('li')
+        const a = document.createElement('a')
+        a.href = r.url
+        a.id = `buscar-op-${i}`
+        a.setAttribute('role', 'option')
+        a.setAttribute('aria-selected', 'false')
+        a.className = 'block rounded-lg px-3 py-2.5 transition-colors hover:bg-sidebar focus:outline-none'
+
+        const cabecera = document.createElement('div')
+        cabecera.className = 'flex flex-wrap items-center gap-2'
+        const titulo = document.createElement('span')
+        titulo.className = 'font-semibold text-title'
+        titulo.textContent = r.meta.title ?? r.url
+        cabecera.append(titulo)
+        if (r.meta.categoria && r.meta.slug) {
+            const chip = document.createElement('span')
+            chip.className = 'chip-cat rounded-full border px-2 py-0.5 text-[10px] font-semibold'
+            chip.style.cssText = `--cat-text:var(--${r.meta.slug}-text);--cat-bg:var(--${r.meta.slug}-bg);--cat-border:var(--${r.meta.slug}-border)`
+            chip.textContent = r.meta.categoria
+            cabecera.append(chip)
+        }
+
+        const extracto = document.createElement('p')
+        extracto.className = 'mt-1 line-clamp-2 text-sm text-body'
+        extracto.innerHTML = r.excerpt
+
+        a.append(cabecera, extracto)
+
+        // Secciones del doc donde aparece la búsqueda (enlaces directos al encabezado)
+        const secciones = (r.sub_results ?? []).filter((s) => s.anchor && s.url !== r.url).slice(0, 3)
+        if (secciones.length > 0) {
+            const sub = document.createElement('p')
+            sub.className = 'mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-xs text-muted'
+            for (const s of secciones) {
+                const span = document.createElement('span')
+                span.className = 'cursor-pointer underline decoration-border-dark underline-offset-2 hover:text-title'
+                span.textContent = `# ${s.title}`
+                // Es un <span> dentro del <a> (no se anidan enlaces): al tocarlo va directo a la sección
+                span.addEventListener('click', (e) => {
+                    e.preventDefault()
+                    window.location.href = s.url
+                })
+                sub.append(span)
+            }
+            a.append(sub)
+        }
+
+        li.append(a)
+        return li
+    }
+
+    // Pagefind tolera errores recortando la palabra hasta un prefijo; si no hay coincidencias real,
+    // "xyzqwerty" acaba "encontrando" la x de una fórmula. Se descartan los resultados cuyas palabras
+    // resaltadas no comparten al menos 3 letras iniciales con lo escrito (o la palabra entera si es corta).
+    const normalizar = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9ñ]/g, '')
+    function esRelevante(r: Resultado, q: string) {
+        const terminos = q.split(/\s+/).map(normalizar).filter(Boolean)
+        const marcados = Array.from(r.excerpt.matchAll(/<mark>(.*?)<\/mark>/g), (m) => normalizar(m[1])).filter(Boolean)
+        if (marcados.length === 0) return true
+        return marcados.some((m) => terminos.some((t) => {
+            const n = Math.min(3, t.length)
+            return m.slice(0, n) === t.slice(0, n)
+        }))
+    }
+
+    async function buscar() {
+        if (!input || !lista) return
+        const q = input.value.trim()
+        if (q === '') {
+            lista.replaceChildren()
+            input.setAttribute('aria-expanded', 'false')
+            mostrarEstado('Escribe para buscar en los temas de teoría.')
+            return
+        }
+        const pf = await cargarPagefind()
+        if (!pf) {
+            mostrarEstado('La búsqueda no está disponible aquí: el índice se genera con «npm run build» (en «npm run dev» no existe).')
+            return
+        }
+        const respuesta = await pf.debouncedSearch(q, {}, 200)
+        if (respuesta === null) return // llegó una búsqueda más nueva
+        const todos = await Promise.all(respuesta.results.slice(0, MAX_RESULTADOS).map((r) => r.data()))
+        if (input.value.trim() !== q) return
+        const datos = todos.filter((r) => esRelevante(r, q))
+
+        lista.replaceChildren(...datos.map(crearResultado))
+        input.setAttribute('aria-expanded', String(datos.length > 0))
+        input.removeAttribute('aria-activedescendant')
+        activo = -1
+        mostrarEstado(datos.length === 0 ? `No encontramos nada para «${q}». Prueba con otra palabra.` : '')
+        if (datos.length > 0) marcar(0)
+    }
+
+    function abrir() {
+        if (!dialog || dialog.open) return
+        document.documentElement.classList.add('overflow-hidden')
+        dialog.showModal()
+        input?.focus()
+        input?.select()
+        void cargarPagefind()
+    }
+
+    btn?.addEventListener('click', abrir)
+    cerrar?.addEventListener('click', () => dialog?.close())
+    input?.addEventListener('input', () => void buscar())
+
+    input?.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown') {
+            e.preventDefault()
+            marcar(activo + 1)
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault()
+            marcar(activo - 1)
+        } else if (e.key === 'Enter') {
+            const op = opciones()[activo]
+            if (op) {
+                e.preventDefault()
+                op.click()
+            }
+        }
+    })
+
+    // Tocar fuera del panel cierra
+    dialog?.addEventListener('click', (e) => {
+        if (e.target === dialog) dialog.close()
+    })
+    dialog?.addEventListener('close', () => {
+        document.documentElement.classList.remove('overflow-hidden')
+        btn?.focus({ preventScroll: true })
+    })
+
+    // Atajos globales: Ctrl/⌘ + K, o «/» cuando no se está escribiendo en un campo
+    document.addEventListener('keydown', (e) => {
+        const escribiendo = (e.target as HTMLElement | null)?.closest?.('input, textarea, [contenteditable="true"]')
+        if ((e.key === 'k' || e.key === 'K') && (e.metaKey || e.ctrlKey)) {
+            e.preventDefault()
+            if (dialog?.open) dialog.close()
+            else abrir()
+        } else if (e.key === '/' && !escribiendo && !dialog?.open) {
+            e.preventDefault()
+            abrir()
+        }
+    })
+</script>

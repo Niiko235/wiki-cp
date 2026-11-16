@@ -1,35 +1,17 @@
-
 ---
+import { REDES } from '../lib/enlaces'
+import Logo from './Logo.astro'
 ---
 
-
-<footer class="flex flex-col sm:flex-row justify-between px-5 sm:px-10 py-4 text-body">
-    <div class="text-center sm:text-left">
-        <div class="flex gap-1.5 font-semibold items-center mb-2 justify-center sm:justify-start">
-            <p class="font-extrabold text-title text-xl">
-                wiki 
-                <span class="text-accent">cp</span>
-            </p>
-            <span>·</span>
-            <p>udla</p>
+<footer>
+    <div class="mx-auto flex max-w-shell flex-col justify-between px-5 py-4 text-body sm:flex-row sm:px-10">
+        <div class="text-center sm:text-left">
+            <Logo class="mb-2" />
+            <p class="text-xs">Semillero de programación · Florencia, Caquetá</p>
         </div>
-        <p class="text-xs">Semillero de programación · Florencia, Caquetá</p>    
+        <ul class="flex justify-evenly items-center gap-4 mt-4 sm:mt-0">
+            <li><a class="underline" href={REDES.github}>Github</a></li>
+            <li><a class="underline" href={REDES.facebook}>Facebook</a></li>
+        </ul>
     </div>
-    <ul class="flex justify-evenly items-center gap-2 mt-4 sm:justify-around sm:mt-0">
-        <a href="https://github.com/Niiko235/wiki-cp">
-            <li class="underline">
-                Github
-            </li>
-        </a>
-        <a href="https://www.facebook.com/groups/792879287501813">
-            <li class="underline">
-                Facebook
-            </li>
-        </a>
-        <a href="">
-            <li class="underline">
-                WhatsApp
-            </li>
-        </a>
-    </ul>
 </footer>

@@ -1,61 +1,32 @@
 ---
 import Navbar from '../components/Navbar.astro';
 import Sidebar from '../components/Sidebar.astro';
+import BaseHead from '../components/BaseHead.astro';
+import ImageZoom from '../components/ImageZoom.astro';
 import '../styles/global.css'
+
+interface Props {
+    titulo?: string;
+    descripcion?: string;
+}
+
+const { titulo, descripcion } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
     <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="icon" href="/favicon.ico" />
-        <meta name="generator" content={Astro.generator} />
-        <title>wiki cp</title>
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
-        />  
+        <BaseHead titulo={titulo} descripcion={descripcion} />
     </head>
-    <body class="bg-base h-screen flex flex-col overflow-hidden">
-        <Navbar showMenuButton={true} />
-        <div class="flex flex-1 min-h-0 relative">
-            <Sidebar/>
-            
-            <!-- Contenedor principal de tu contenido -->
-            <main class="flex-1 overflow-y-auto">
+    <body class="bg-base min-h-dvh flex flex-col">
+        <Navbar />
+        <!-- Shell del sitio: navbar, sidebar y contenido comparten el mismo ancho máximo (1400px) -->
+        <div class="mx-auto flex w-full max-w-shell flex-1">
+            <Sidebar />
+            <main class="min-w-0 flex-1">
                 <slot />
             </main>
         </div>
-
-        <!-- Script para la lógica del Sidebar corregido -->
-        <script>
-            function initSidebar() {
-                // Actualizado a 'sidebar-toggle-btn' para que coincida con el Navbar unificado
-                const menuBtn = document.getElementById('sidebar-toggle-btn');
-                const sidebar = document.getElementById('sidebar-menu');
-                const overlay = document.getElementById('sidebar-overlay');
-
-                function toggleSidebar() {
-                    sidebar?.classList.toggle('-translate-x-full');
-                    overlay?.classList.toggle('hidden');
-                }
-
-                // Limpiar eventos previos para evitar duplicados
-                menuBtn?.removeEventListener('click', toggleSidebar);
-                overlay?.removeEventListener('click', toggleSidebar);
-
-                // Asignar los eventos
-                menuBtn?.addEventListener('click', toggleSidebar);
-                overlay?.addEventListener('click', toggleSidebar);
-            }
-
-            // Ejecutar al cargar la página por primera vez
-            initSidebar();
-
-            // Ejecutar al navegar entre páginas
-            document.addEventListener('astro:page-load', initSidebar);
-        </script>
+        <ImageZoom />
     </body>
 </html>

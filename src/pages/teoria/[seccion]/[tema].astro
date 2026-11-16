@@ -1,0 +1,96 @@
+---
+import LayoutContent from '../../../layouts/LayoutContent.astro'
+import { getCollection, render } from 'astro:content'
+import katex from 'katex'
+import ProblemCard from '../../../components/ProblemCard.astro'
+import { NIVELES } from '../../../lib/niveles'
+import { categoriaDe, estiloCategoria } from '../../../lib/categorias'
+
+export async function getStaticPaths() {
+  const teorias = await getCollection('teorias')
+  // id = "grafos/kruskal" (ruta del .md dentro de src/content/teorias) → /teoria/grafos/kruskal
+  return teorias.map((teoria) => ({
+    params: { seccion: teoria.id.split('/')[0], tema: teoria.id.split('/').slice(1).join('/') },
+    props:  { teoria }
+  }))
+}
+
+const { teoria } = Astro.props
+const { data }   = teoria
+const {
+  titulo,
+  autores,
+  complejidad,
+  fechaEscrito,
+  fechaUltimaActualizacion,
+  problemas,
+} = data
+
+const { Content }    = await render(teoria)
+const complejidadHTML = katex.renderToString(complejidad, { throwOnError: false })
+// Falla en el build si la carpeta del doc no es una categoría válida (src/lib/categorias.ts)
+const categoria       = categoriaDe(teoria.id)
+
+// Ejercicios del tema ordenados por dificultad: Bronce → Plata → Oro
+const problemasOrdenados = NIVELES.flatMap(nivel =>
+  problemas.filter(problema => problema.nivelProblema === nivel)
+)
+---
+
+<LayoutContent titulo={titulo}>
+  <div class="px-5 py-8 sm:px-6 sm:py-10">
+      <div class="max-w-4xl mx-auto ">
+
+      <p class="text-[11px] font-mono text-subtle mb-4">
+        Documentación
+        <span class="mx-1 text-border-dark">›</span>
+        <span>{categoria.nombre}</span>
+        <span class="mx-1 text-border-dark">›</span>
+        <span class="text-muted">{titulo}</span>
+      </p>
+
+
+      <!-- Pagefind: el título y la categoría viajan como metadatos del resultado de búsqueda -->
+      <span hidden data-pagefind-meta={`categoria:${categoria.nombre}`}></span>
+      <span hidden data-pagefind-meta={`slug:${categoria.slug}`}></span>
+      <h1 data-pagefind-meta="title" class="text-3xl font-extrabold text-title tracking-tight leading-tight mb-4">
+        {titulo}
+      </h1>
+
+
+      <div class="flex flex-wrap gap-2 mb-6">
+        <span class="chip-cat text-[11px] font-semibold px-3 py-1 rounded-full border font-mono"
+              style={estiloCategoria(categoria.slug)}>
+          <span set:html={complejidadHTML} />
+        </span>
+      </div>
+
+
+      <div class="flex flex-wrap gap-4 text-[12px] text-subtle font-mono mb-6
+                  pb-6 border-b border-border">
+        <span>✍️ {autores.join(', ')}</span>
+        <span>📅 {fechaEscrito.toLocaleDateString('es-CO', { dateStyle: 'medium' })}</span>
+        <span>🔄 {fechaUltimaActualizacion.toLocaleDateString('es-CO', { dateStyle: 'medium' })}</span>
+      </div>
+
+
+      <div data-pagefind-body class="prose prose-wiki max-w-none prose-code:before:content-none prose-code:after:content-none pb-6">
+        <Content/>
+      </div>
+
+      {
+        categoria.slug !== 'introduccion' && problemasOrdenados.length > 0 && (
+          <section id="ejercicios" class="pt-6 border-t border-border">
+            <h2 class="text-2xl font-bold text-title mb-4">Ejercicios</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              {problemasOrdenados.map(problema => (
+                <ProblemCard problema={problema} />
+              ))}
+            </div>
+          </section>
+        )
+      }
+
+    </div>
+  </div>
+</LayoutContent>
