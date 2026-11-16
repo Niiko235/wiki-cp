@@ -97,6 +97,11 @@ html,
 	--oro-bg:        #fef3cc;
 	--oro-border:    #e8d080;
 
+	/* Acento de nivel: barra lateral y punto de las tarjetas de ejercicios (≥ 3:1 sobre el fondo, gráfico no textual) */
+	--bronce-acento: #b8702a;
+	--plata-acento:  #6f8799;
+	--oro-acento:    #b08a12;
+
 
   }
 
@@ -174,6 +179,10 @@ html,
 	--oro-text:      #e7d7a6;
 	--oro-bg:        #332d19;
 	--oro-border:    #635836;
+
+	--bronce-acento: #d0905a;
+	--plata-acento:  #8fa9c0;
+	--oro-acento:    #d6b74a;
   }
 }
 
@@ -210,6 +219,10 @@ html,
 	--color-oro-text:      var(--oro-text);
 	--color-oro-bg:        var(--oro-bg);
 	--color-oro-border:    var(--oro-border);
+
+	--color-bronce-acento: var(--bronce-acento);
+	--color-plata-acento:  var(--plata-acento);
+	--color-oro-acento:    var(--oro-acento);
 
 
 }

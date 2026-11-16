@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content'
 import Layout from '../layouts/Layout.astro'
 import ProblemCard from '../components/ProblemCard.astro'
+import NivelBadge from '../components/NivelBadge.astro'
 import { NIVELES, descripcionNivel, estiloNivel } from '../lib/niveles'
 
 const teorias = await getCollection('teorias')
@@ -35,13 +36,9 @@ const grupos = NIVELES.map(nivel => ({
             {grupos.length > 0 && (
                 <nav class="flex flex-wrap gap-2" aria-label="Ir a un nivel">
                     {grupos.map(({ nivel, items }) => (
-                        <a
-                            href={`#${nivel.toLowerCase()}`}
-                            class={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm font-semibold ${estiloNivel[nivel].badge}`}
-                        >
-                            <span class={`size-2.5 rounded-full ${estiloNivel[nivel].dot}`}></span>
+                        <NivelBadge nivel={nivel} href={`#${nivel.toLowerCase()}`} tamano="md">
                             {nivel} · {items.length}
-                        </a>
+                        </NivelBadge>
                     ))}
                 </nav>
             )}

@@ -1,4 +1,5 @@
-export const colbaradores = [
+// Personas que han aportado a la wiki sin ser autores oficiales (nombre o usuario de GitHub)
+export const colaboradores = [
     'Jeank'
 ]
 

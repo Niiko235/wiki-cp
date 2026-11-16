@@ -1,47 +1,65 @@
 ---
 import { Icon } from 'astro-icon/components'
+import NivelBadge from './NivelBadge.astro'
 import { estiloNivel, type Nivel } from '../lib/niveles'
 
+/**
+ * Tarjeta de un ejercicio. Se usa al final de cada tema, en /ejercicios y en la portada.
+ *   <ProblemCard problema={p} />                 ← toda la tarjeta abre el problema en otra pestaña
+ *   <ProblemCard problema={p} tema={{...}} />    ← además muestra el tema al que pertenece (/ejercicios)
+ * Sin `urlProblema` la tarjeta no es enlace (vista previa de la portada).
+ */
 interface Props {
     problema: {
         nombreProblema: string
         nombrePlataforma: string
         nivelProblema: Nivel
-        urlProblema: string
+        urlProblema?: string
     }
-    // Si se pasa, se muestra el tema al que pertenece el problema (página /ejercicios)
     tema?: { titulo: string; href: string }
 }
 
 const { problema, tema } = Astro.props
 const estilo = estiloNivel[problema.nivelProblema]
+const enlace = Boolean(problema.urlProblema)
 ---
 
-<div class={`relative flex items-center justify-between gap-3 rounded-xl border border-l-4 border-border px-3 py-2 transition-colors hover:bg-sidebar ${estilo.borde}`}>
+<article
+    class:list={[
+        'group relative flex items-center gap-3 rounded-xl border border-l-4 border-border bg-card py-3 pr-3 pl-4 transition-colors',
+        enlace && 'hover:border-border-dark hover:bg-sidebar has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-accent',
+        estilo.borde,
+    ]}
+>
     <div class="min-w-0 flex-1">
-        <a
-            href={problema.urlProblema}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="block truncate font-medium text-title after:absolute after:inset-0"
-        >
-            {problema.nombreProblema}
-        </a>
-        <p class="text-sm text-body">
+        {enlace ? (
+            <a
+                href={problema.urlProblema}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="block truncate font-semibold text-title outline-none after:absolute after:inset-0"
+            >
+                {problema.nombreProblema}
+            </a>
+        ) : (
+            <p class="truncate font-semibold text-title">{problema.nombreProblema}</p>
+        )}
+        <p class="mt-0.5 truncate text-sm text-muted">
             {problema.nombrePlataforma}
             {tema && (
                 <>
-                    {' · '}
-                    <a href={tema.href} class="relative z-10 underline decoration-border-dark hover:text-primary">{tema.titulo}</a>
+                    <span aria-hidden="true"> · </span>
+                    <a href={tema.href} class="relative z-10 underline decoration-border-dark underline-offset-2 hover:text-title">{tema.titulo}</a>
                 </>
             )}
         </p>
     </div>
-    <div class="flex shrink-0 items-center gap-2">
-        <span class={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-sm font-semibold ${estilo.badge}`}>
-            <span class={`size-2.5 rounded-full ${estilo.dot}`}></span>
-            {problema.nivelProblema}
-        </span>
-        <Icon name="lucide:square-arrow-out-up-right" size={18} class="text-body" />
-    </div>
-</div>
+    <NivelBadge nivel={problema.nivelProblema} />
+    {enlace && (
+        <Icon
+            name="lucide:arrow-up-right"
+            aria-label="Abre en otra pestaña"
+            class="size-4.5 shrink-0 text-muted transition-[color,transform] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-title"
+        />
+    )}
+</article>
