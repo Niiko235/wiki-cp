@@ -1,28 +1,76 @@
 ---
+import { Icon } from 'astro-icon/components'
 import { rutas } from "../lib/rutas-sidebar";
+import { categoriaPorSlug } from '../lib/categorias'
+import { REDES } from '../lib/enlaces'
+import NavLinks from './NavLinks.astro'
+import Button from './Button.astro'
+
+interface Props {
+    // true: en escritorio es la columna del temario (sticky). false: solo existe como menú móvil.
+    conTemario?: boolean
+}
+
+const { conTemario = true } = Astro.props
+
+// Solo salen las categorías que tienen docs en rutas-sidebar.ts, en el orden de categorias.ts.
+// categoriaPorSlug falla en el build si un slug no existe.
+const grupos = rutas
+    .map(ruta => ({ ...ruta, cat: categoriaPorSlug(ruta.categoria) }))
+    .sort((a, b) => a.cat.orden - b.cat.orden)
 ---
 
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden transition-opacity cursor-pointer"></div>
+<div id="drawer-overlay" class="fixed inset-0 z-55 hidden bg-black/50 md:hidden"></div>
 
-<aside 
-  id="sidebar-menu" 
-  class="fixed inset-y-0 left-0 z-50 bg-base transform -translate-x-full transition-transform duration-300 md:relative md:translate-x-0 md:block border-r border-r-border-dark text-sm h-full overflow-y-auto w-60 space-y-2 py-2"
+<aside
+  id="mobile-drawer"
+  aria-label="Menú lateral"
+  class={`fixed left-0 top-0 z-60 h-dvh w-72 max-w-[85vw] -translate-x-full overflow-y-auto overscroll-contain bg-sidebar text-sm transition-transform duration-300 ${
+    conTemario
+      ? 'md:sticky md:top-(--navbar-h) md:z-auto md:h-[calc(100dvh-var(--navbar-h))] md:w-60 md:shrink-0 md:translate-x-0 md:self-start md:border-r md:border-border-dark md:bg-transparent'
+      : 'md:hidden'
+  }`}
 >
-   {rutas.map(ruta => (
-    <details class="group select-none">
-        <summary class="font-semibold text-primary flex justify-between mx-2 cursor-pointer p-1 rounded transition-colors">
-            {ruta.nombreCategoria.toUpperCase()}
-            <svg class="w-4 h-4 text-neutral-400 transition-transform duration-200 group-open:rotate-90" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-            </svg>
-        </summary>
-        {ruta.contenido.map(contenido => (
-            <a href={`${contenido.slugContenido}`}>
-                <div class="border-l border-border mx-2 py-1.25 px-2 text-muted hover:text-primary transition-colors">
-                    <h4 class="truncate">{contenido.nombreContenido}</h4>
-                </div>
-            </a>
-        ))}
-    </details>
-   ))}
+    <!-- Solo móvil: navegación general y redes (en escritorio viven en el navbar) -->
+    <div class="md:hidden">
+        <div class="flex items-center justify-between border-b border-border px-3 py-1">
+            <span class="font-semibold text-title">Menú</span>
+            <button id="drawer-close" type="button" aria-label="Cerrar menú" class="grid size-10 cursor-pointer place-items-center rounded-md text-body hover:bg-base">
+                <Icon name="lucide:x" class="size-5" />
+            </button>
+        </div>
+        <div class="border-b border-border p-2">
+            <NavLinks vertical />
+            <div class="flex gap-2 px-3 pt-2 pb-1">
+                <Button variante="icono" href={REDES.facebook} aria-label="Facebook">
+                    <Icon name="simple-icons:facebook" />
+                </Button>
+                <Button variante="icono" href={REDES.instagram} aria-label="Instagram">
+                    <Icon name="simple-icons:instagram" />
+                </Button>
+            </div>
+        </div>
+    </div>
+
+    {conTemario && (
+        <div class="space-y-2 py-2">
+            {grupos.map(ruta => (
+                <details class="group select-none">
+                    <summary class="font-semibold text-primary flex justify-between mx-2 cursor-pointer p-2 md:p-1 rounded transition-colors">
+                        {ruta.cat.nombre.toUpperCase()}
+                        <svg class="w-4 h-4 text-muted transition-transform duration-200 group-open:rotate-90" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </summary>
+                    {ruta.contenido.map(contenido => (
+                        <a href={`/teoria/${ruta.categoria}/${contenido.slugContenido}`}>
+                            <div class="border-l border-border mx-2 py-2 md:py-1.25 px-2 text-muted hover:text-primary transition-colors">
+                                <h4 class="truncate">{contenido.nombreContenido}</h4>
+                            </div>
+                        </a>
+                    ))}
+                </details>
+            ))}
+        </div>
+    )}
 </aside>

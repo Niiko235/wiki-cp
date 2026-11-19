@@ -1,0 +1,48 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+/**
+ * Botón del sitio. Con `href` se dibuja como enlace (<a>); sin él, como <button>.
+ * Así nunca queda un <button> dentro de un <a>, que es HTML inválido.
+ *
+ *   <Button href="/teoria/..." variante="primario">Empezar a leer →</Button>
+ *   <Button variante="icono" aria-label="Cambiar tema"><Icon name="lucide:moon" /></Button>
+ *
+ * Variantes:
+ *   primario   → fondo ámbar, para la acción principal de la página
+ *   secundario → fondo del sidebar con borde, para acciones al lado del primario
+ *   icono      → cuadrado de 40px (36px en escritorio) para botones de solo ícono; requiere aria-label
+ */
+type Variante = 'primario' | 'secundario' | 'icono'
+
+type Props = (HTMLAttributes<'a'> & HTMLAttributes<'button'>) & {
+    variante?: Variante
+    href?: string
+}
+
+const { variante = 'secundario', href, class: className, type = 'button', ...props } = Astro.props
+
+const base =
+    'inline-flex items-center justify-center gap-2 rounded-md cursor-pointer transition-[transform,color,background-color] duration-150 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent'
+
+const variantes: Record<Variante, string> = {
+    primario: 'px-4 py-2 bg-accent font-bold text-on-accent',
+    secundario: 'px-4 py-2 border border-border-dark bg-sidebar text-muted hover:text-title',
+    icono: 'size-10 shrink-0 border border-border bg-sidebar text-body hover:text-title md:size-9',
+}
+
+const clases = [base, variantes[variante], className]
+const externo = href?.startsWith('http')
+---
+
+{
+    href ? (
+        <a href={href} class:list={clases} {...(externo ? { target: '_blank', rel: 'noopener noreferrer' } : {})} {...props}>
+            <slot />
+        </a>
+    ) : (
+        <button type={type} class:list={clases} {...props}>
+            <slot />
+        </button>
+    )
+}

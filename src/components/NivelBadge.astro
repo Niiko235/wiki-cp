@@ -1,0 +1,33 @@
+---
+import { estiloNivel, type Nivel } from '../lib/niveles'
+
+/**
+ * Etiqueta de nivel (Bronce, Plata, Oro) con su punto de color.
+ *   <NivelBadge nivel="Plata" />
+ *   <NivelBadge nivel="Oro" href="#oro">Oro · 3</NivelBadge>   ← con href es un enlace; el slot reemplaza el texto
+ */
+interface Props {
+    nivel: Nivel
+    href?: string
+    tamano?: 'sm' | 'md'
+    class?: string
+}
+
+const { nivel, href, tamano = 'sm', class: className } = Astro.props
+const estilo = estiloNivel[nivel]
+const Etiqueta = href ? 'a' : 'span'
+---
+
+<Etiqueta
+    href={href}
+    class:list={[
+        'inline-flex shrink-0 items-center gap-1.5 rounded-full border font-semibold whitespace-nowrap',
+        tamano === 'sm' ? 'px-2 py-0.5 text-xs' : 'px-3 py-1 text-sm',
+        href && 'transition-transform hover:-translate-y-0.5',
+        estilo.badge,
+        className,
+    ]}
+>
+    <span class:list={['size-2 rounded-full', estilo.dot]} aria-hidden="true"></span>
+    <slot>{nivel}</slot>
+</Etiqueta>

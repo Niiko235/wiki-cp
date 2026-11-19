@@ -12,6 +12,16 @@ html,
 
 @layer base {
   :root {
+    --navbar-h: 3.5rem; /* alto fijo del navbar: lo usan el sidebar sticky y el scroll-padding */
+  }
+
+  html {
+    scroll-padding-top: var(--navbar-h); /* los anclas (#ejercicios, etc.) no quedan tapados por el navbar */
+  }
+
+  /* ───────────────────────── TEMA CLARO ─────────────────────────
+     Todos los textos pasan WCAG AA (≥ 4.5:1) sobre los fondos donde se usan. */
+  :root {
     --base:         #faf9f7;      /* bg principal de la pg */
 	--surface:      #ffffff;      /* bg del area del contenido */
 	--card:         #ffffff;      /* bg de las tarjetas - bloques de contenido */
@@ -22,12 +32,42 @@ html,
 
 	--text-title:   #1a1510; 		/* ← casi negro cálido */
 	--text-primary: #3d3428;      /* ← café oscuro */
-	--text-body:    #6b5f52;      /* ← café medio */
-	--text-muted:   #9b8f82;      /* ← café suave - sidebar */
-	--text-subtle:  #b5a99c;      /* ← crema oscura - El breadcrumb  "Documentación › Grafos › Dijkstra"*/
-	--text-accent:  #c47d0e;      /* ← ambar - todo lo que es interactivo o activo */
-	
-	
+	--text-body:    #5a4e42;      /* ← café medio */
+	--text-muted:   #72695f;      /* ← café suave - sidebar (4.7:1 sobre el sidebar) */
+	--text-subtle:  #7a7166;      /* ← el más tenue que sigue siendo legible - breadcrumb y metadatos (4.6:1) */
+	--text-accent:  #c47d0e;      /* ← ambar - todo lo que es interactivo o activo (solo texto grande o fondos) */
+	--text-on-accent: #1a1510;    /* ← texto sobre fondos ámbar (botón principal): 5.4:1 claro / 8.4:1 oscuro */
+	--text-eyebrow: #177a37;      /* ← verde de las etiquetas "DOCUMENTACIÓN", "PRÁCTICA" (5.2:1) */
+
+
+	/* ── Colores por categoría ──
+	   El prefijo de cada grupo (--<slug>-text/bg/border) es el MISMO slug de src/lib/categorias.ts.
+	   Se consumen con la clase `chip-cat` + estiloCategoria(slug); no hay utilidades de Tailwind para ellos.
+	   Para agregar una categoría: agrégala en categorias.ts y define aquí sus colores (claro Y oscuro). */
+	--introduccion-text:   #3d3428;
+	--introduccion-bg:     #f2efe9;
+	--introduccion-border: #d4ccc3;
+
+	--inicial-text:   #4b6410;
+	--inicial-bg:     #f1f6e0;
+	--inicial-border: #c6d792;
+
+	--matematicas-text:   #9a5b16;
+	--matematicas-bg:     #faf0df;
+	--matematicas-border: #ddc49c;
+
+	--bits-text:   #a3295f;
+	--bits-bg:     #fbebf3;
+	--bits-border: #e2b5cd;
+
+	--dp-text:   #a13d3d;
+	--dp-bg:     #faeaea;
+	--dp-border: #deb6b6;
+
+	--estructuras-text:   #7b3f8c;
+	--estructuras-bg:     #f5eaf8;
+	--estructuras-border: #d5b8dc;
+
 	--grafos-text:   #1a5e30;
 	--grafos-bg:     #e8f5ec;
 	--grafos-border: #a9cfb5;
@@ -36,21 +76,9 @@ html,
 	--strings-bg:     #eeecfa;
 	--strings-border: #c9c3e5;
 
-	--mates-text:   #9a5b16;
-	--mates-bg:     #faf0df;
-	--mates-border: #ddc49c;
-
-	--estructuras-text:   #7b3f8c;
-	--estructuras-bg:     #f5eaf8;
-	--estructuras-border: #d5b8dc;
-
-	--dp-text:   #a13d3d;
-	--dp-bg:     #faeaea;
-	--dp-border: #deb6b6;
-
-	--flujo-text:   #21657c;
-	--flujo-bg:     #e7f2f6;
-	--flujo-border: #acd0dc;
+	--flujos-text:   #21657c;
+	--flujos-bg:     #e7f2f6;
+	--flujos-border: #acd0dc;
 
 	--geometria-text:   #24716b;
 	--geometria-bg:     #e6f3f1;
@@ -69,30 +97,99 @@ html,
 	--oro-bg:        #fef3cc;
 	--oro-border:    #e8d080;
 
+	/* Acento de nivel: barra lateral y punto de las tarjetas de ejercicios (≥ 3:1 sobre el fondo, gráfico no textual) */
+	--bronce-acento: #b8702a;
+	--plata-acento:  #6f8799;
+	--oro-acento:    #b08a12;
+
 
   }
 
+  /* ───────────────────────── TEMA OSCURO ─────────────────────────
+     Una sola familia: marrones cálidos (la misma de la paleta clara), nunca azul pizarra.
+     Textos ≥ 4.6:1; chips de categorías y niveles ≥ 7.6:1. */
   .dark {
-	--base:        #0f1117;
-	--surface:     #111827;
-	--card:        #1a1d27;
-	--sidebar:     #0c0e14;
-	--border:      #1e293b;
-	--border-dark: #2a2820;
+	--base:        #151210;
+	--surface:     #1b1814;
+	--card:        #1f1b16;
+	--sidebar:     #100e0b;
+	--border:      #392f26;
+	--border-dark: #4a4034;
 
 
-	--text-title:   #f1f5f9;
-	--text-primary: #aea691;   
-	--text-body:    #6b6657;   
-	--text-muted:   #4a4438;   
-	--text-subtle:  #4a4438;   
-	--text-accent:  #f59e0b;   
+	--text-title:   #f5efe6;
+	--text-primary: #d9cfbf;
+	--text-body:    #b8ac9b;
+	--text-muted:   #9a8e7e;
+	--text-subtle:  #8f8374;
+	--text-accent:  #f59e0b;
+	--text-on-accent: #1a1510;
+	--text-eyebrow: #47e06d;
+
+	/* Categorías: fondo = tinte oscuro del matiz, texto = tinte claro del mismo matiz */
+	--introduccion-text:   #d9c9b5;
+	--introduccion-bg:     #2b2722;
+	--introduccion-border: #564e43;
+
+	--inicial-text:   #d4e7a6;
+	--inicial-bg:     #2c3319;
+	--inicial-border: #566336;
+
+	--matematicas-text:   #e7c8a6;
+	--matematicas-bg:     #332719;
+	--matematicas-border: #634e36;
+
+	--bits-text:   #e7a6c3;
+	--bits-bg:     #331925;
+	--bits-border: #63364a;
+
+	--dp-text:   #e7a6a6;
+	--dp-bg:     #331919;
+	--dp-border: #633636;
+
+	--estructuras-text:   #d9a6e7;
+	--estructuras-bg:     #2e1933;
+	--estructuras-border: #593663;
+
+	--grafos-text:   #a6e7bb;
+	--grafos-bg:     #193322;
+	--grafos-border: #366344;
+
+	--strings-text:   #b0a6e7;
+	--strings-bg:     #1d1933;
+	--strings-border: #3c3663;
+
+	--flujos-text:   #a6d7e7;
+	--flujos-bg:     #192d33;
+	--flujos-border: #365863;
+
+	--geometria-text:   #a6e7e2;
+	--geometria-bg:     #193331;
+	--geometria-border: #366360;
+
+	/* Niveles de dificultad */
+	--bronce-text:   #e7c7a6;
+	--bronce-bg:     #332619;
+	--bronce-border: #634c36;
+
+	--plata-text:    #afc9de;
+	--plata-bg:      #1e272f;
+	--plata-border:  #3c4e5d;
+
+	--oro-text:      #e7d7a6;
+	--oro-bg:        #332d19;
+	--oro-border:    #635836;
+
+	--bronce-acento: #d0905a;
+	--plata-acento:  #8fa9c0;
+	--oro-acento:    #d6b74a;
   }
 }
 
 @theme {
 	--font-sans: 'Roboto Variable', sans-serif;
-  
+	--container-shell: 87.5rem; /* ancho máximo del sitio: 1400px → utilidad max-w-shell */
+
 	--color-base:        var(--base);
 	--color-surface:     var(--surface);
 	--color-card:        var(--card);
@@ -102,40 +199,13 @@ html,
 
 
 	--color-title:   var(--text-title);
-	--color-primary: var(--text-primary);   
-	--color-body:    var(--text-body);   
-	--color-muted:   var(--text-muted);   
-	--color-subtle:  var(--text-subtle);   
-	--color-accent:  var(--text-accent); 
-
-
-	--color-grafos-text: var(--grafos-text);
-	--color-grafos-bg: var(--grafos-bg);
-	--color-grafos-border: var(--grafos-border);
-
-	--color-strings-text:  var(--strings-text);
-	--color-strings-bg:  var(--strings-bg);
-	--color-strings-border:  var(--strings-border);
-
-	--color-mates-text: var(--mates-text);
-	--color-mates-bg: var(--mates-bg);
-	--color-mates-border: var(--mates-border);
-
-	--color-estructuras-text: var(--estructuras-text);
-	--color-estructuras-bg: var(--estructuras-bg);
-	--color-estructuras-border: var(--estructuras-border);
-
-	--color-dp-text: var(--dp-text);
-	--color-dp-bg: var(--dp-bg);
-	--color-dp-border: var(--dp-border);
-
-	--color-flujo-text:   var(--flujo-text);
-	--color-flujo-bg:   var(--flujo-bg);
-	--color-flujo-border:   var(--flujo-border);
-
-	--color-geometria-text: var(--geometria-text);
-	--color-geometria-bg: var(--geometria-bg);
-	--color-geometria-border: var(--geometria-border);
+	--color-primary: var(--text-primary);
+	--color-body:    var(--text-body);
+	--color-muted:   var(--text-muted);
+	--color-subtle:  var(--text-subtle);
+	--color-accent:  var(--text-accent);
+	--color-on-accent: var(--text-on-accent);
+	--color-eyebrow: var(--text-eyebrow);
 
 
 	--color-bronce-text:   var(--bronce-text);
@@ -150,5 +220,103 @@ html,
 	--color-oro-bg:        var(--oro-bg);
 	--color-oro-border:    var(--oro-border);
 
+	--color-bronce-acento: var(--bronce-acento);
+	--color-plata-acento:  var(--plata-acento);
+	--color-oro-acento:    var(--oro-acento);
 
+
+}
+
+@layer components {
+	/* Chip de categoría: los colores llegan por las variables --cat-* (ver estiloCategoria en categorias.ts). */
+	.chip-cat {
+		color: var(--cat-text);
+		background-color: var(--cat-bg);
+		border-color: var(--cat-border);
+	}
+}
+
+/* Texto de los docs con los colores del sitio. Como los tokens ya cambian con el tema,
+   NO hace falta prose-neutral ni dark:prose-invert. Se usa así: class="prose prose-wiki".
+   Va FUERA de cualquier @layer a propósito: el plugin de tipografía define `.prose` dentro de
+   `@layer utilities`, y en @layer components esta regla perdía siempre (el CSS sin capa gana a todas). */
+.prose.prose-wiki {
+	--tw-prose-body: var(--text-primary);
+	--tw-prose-headings: var(--text-title);
+	--tw-prose-lead: var(--text-body);
+	--tw-prose-links: var(--text-title);
+	--tw-prose-bold: var(--text-title);
+	--tw-prose-counters: var(--text-muted);
+	--tw-prose-bullets: var(--text-muted);
+	--tw-prose-hr: var(--border);
+	--tw-prose-quotes: var(--text-primary);
+	--tw-prose-quote-borders: var(--border-dark);
+	--tw-prose-captions: var(--text-muted);
+	--tw-prose-kbd: var(--text-title);
+	--tw-prose-code: var(--text-title);
+	--tw-prose-th-borders: var(--border-dark);
+	--tw-prose-td-borders: var(--border);
+}
+
+/* Imágenes de los docs (diagramas): marco suave en ambos temas. En oscuro se atenúan un poco para que
+   el fondo blanco de los PNG no encandile. El zoom lo da src/components/ImageZoom.astro. */
+.prose.prose-wiki img {
+	border-radius: 0.75rem;
+	border: 1px solid var(--border);
+	cursor: zoom-in;
+}
+.dark .prose.prose-wiki img {
+	filter: brightness(0.9);
+}
+.prose.prose-wiki img:focus-visible {
+	outline: 2px solid var(--text-accent);
+	outline-offset: 3px;
+}
+
+/* Callouts de los docs: `> [!NOTA]`, `> [!TIP]`, `> [!IMPORTANTE]`, `> [!CUIDADO]` (src/lib/remark-callouts.mjs).
+   Reusan los tokens de categorías, que ya pasan AA en claro y oscuro: nota = flujos (azul),
+   tip = grafos (verde), importante = estructuras (morado), cuidado = dp (rojo).
+   Fuera de @layer por la misma razón que .prose.prose-wiki. */
+.prose.prose-wiki .callout {
+	--callout-icono: none;
+	margin-block: 1.5em;
+	padding: 0.85em 1.1em;
+	border: 1px solid var(--callout-border);
+	border-left-width: 4px;
+	border-radius: 0.5rem;
+	background-color: var(--callout-bg);
+}
+.prose.prose-wiki .callout > :last-child { margin-bottom: 0; }
+.prose.prose-wiki .callout > p:nth-child(2) { margin-top: 0.35em; }
+.prose.prose-wiki .callout-titulo {
+	display: flex;
+	align-items: center;
+	gap: 0.45em;
+	margin: 0;
+	font-weight: 700;
+	color: var(--callout-text);
+}
+.prose.prose-wiki .callout-titulo::before {
+	content: '';
+	flex-shrink: 0;
+	width: 1.1em;
+	height: 1.1em;
+	background-color: currentColor;
+	mask: var(--callout-icono) center / contain no-repeat;
+}
+.prose.prose-wiki .callout-nota {
+	--callout-text: var(--flujos-text); --callout-bg: var(--flujos-bg); --callout-border: var(--flujos-border);
+	--callout-icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 16v-4M12 8h.01'/%3E%3C/svg%3E");
+}
+.prose.prose-wiki .callout-tip {
+	--callout-text: var(--grafos-text); --callout-bg: var(--grafos-bg); --callout-border: var(--grafos-border);
+	--callout-icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5M9 18h6M10 22h4'/%3E%3C/svg%3E");
+}
+.prose.prose-wiki .callout-importante {
+	--callout-text: var(--estructuras-text); --callout-bg: var(--estructuras-bg); --callout-border: var(--estructuras-border);
+	--callout-icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 8v4M12 16h.01'/%3E%3C/svg%3E");
+}
+.prose.prose-wiki .callout-cuidado {
+	--callout-text: var(--dp-text); --callout-bg: var(--dp-bg); --callout-border: var(--dp-border);
+	--callout-icono: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4M12 17h.01'/%3E%3C/svg%3E");
 }

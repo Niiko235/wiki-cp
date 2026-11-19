@@ -1,13 +1,69 @@
-
 ---
-import Layout from "../layouts/Layout.astro";
+import { getCollection } from 'astro:content'
+import Layout from '../layouts/Layout.astro'
+import ProblemCard from '../components/ProblemCard.astro'
+import NivelBadge from '../components/NivelBadge.astro'
+import { NIVELES, descripcionNivel, estiloNivel } from '../lib/niveles'
 
+const teorias = await getCollection('teorias')
 
+// Los ejercicios se escriben en el frontmatter de cada tema; aquí se juntan todos.
+const ejercicios = teorias.flatMap(teoria =>
+    teoria.data.problemas.map(problema => ({
+        problema,
+        tema: { titulo: teoria.data.titulo, href: `/teoria/${teoria.id}` },
+    }))
+)
+
+// Agrupados por nivel (Bronce → Plata → Oro) y ordenados por tema dentro de cada nivel.
+const grupos = NIVELES.map(nivel => ({
+    nivel,
+    items: ejercicios
+        .filter(e => e.problema.nivelProblema === nivel)
+        .sort((a, b) => a.tema.titulo.localeCompare(b.tema.titulo, 'es')),
+})).filter(grupo => grupo.items.length > 0)
 ---
 
+<Layout titulo="Ejercicios" descripcion="Problemas curados para practicar cada técnica, clasificados en Bronce, Plata y Oro.">
+    <div class="max-w-4xl w-full mx-auto px-5 py-10">
+        <header class="border-b border-border pb-8 mb-8">
+            <h2 class="text-xs font-mono tracking-widest text-muted mb-2">PRÁCTICA</h2>
+            <h1 class="text-4xl font-bold text-title mb-3">Ejercicios por nivel</h1>
+            <p class="text-body mb-4">
+                Cada tema de la wiki trae sus propios problemas. Aquí los encuentras todos juntos,
+                clasificados por dificultad.
+            </p>
+            {grupos.length > 0 && (
+                <nav class="flex flex-wrap gap-2" aria-label="Ir a un nivel">
+                    {grupos.map(({ nivel, items }) => (
+                        <NivelBadge nivel={nivel} href={`#${nivel.toLowerCase()}`} tamano="md">
+                            {nivel} · {items.length}
+                        </NivelBadge>
+                    ))}
+                </nav>
+            )}
+        </header>
 
-
-
-<Layout>
-    <h1 class="text-2xl font-bold italic">Sección desactivada por el momento, los ejercicios añadidos estaran en la sección de cada tema por el momento :c</h1>
+        {grupos.length === 0 ? (
+            <p class="text-body">
+                Todavía no hay ejercicios publicados. Cada tema irá agregando los suyos.
+            </p>
+        ) : (
+            grupos.map(({ nivel, items }) => (
+                <section id={nivel.toLowerCase()} class="mb-10 scroll-mt-4">
+                    <h2 class="flex items-center gap-2 text-2xl font-bold text-title">
+                        <span class={`size-3 rounded-full ${estiloNivel[nivel].dot}`}></span>
+                        {nivel}
+                        <span class="text-sm font-normal text-body">({items.length})</span>
+                    </h2>
+                    <p class="text-body mb-4">{descripcionNivel[nivel]}</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {items.map(({ problema, tema }) => (
+                            <ProblemCard problema={problema} tema={tema} />
+                        ))}
+                    </div>
+                </section>
+            ))
+        )}
+    </div>
 </Layout>

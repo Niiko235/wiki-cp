@@ -1,0 +1,26 @@
+---
+import { ENLACES_NAV } from '../lib/enlaces'
+
+interface Props {
+    // true: lista vertical con áreas táctiles grandes (menú móvil)
+    vertical?: boolean
+}
+
+const { vertical = false } = Astro.props
+---
+
+<ul class:list={[vertical ? 'flex flex-col gap-1' : 'flex items-center gap-1']}>
+    {ENLACES_NAV.map(({ texto, href }) => (
+        <li>
+            <a
+                href={href}
+                class:list={[
+                    'block rounded-md text-body transition-colors hover:text-primary',
+                    vertical ? 'px-3 py-3 text-base hover:bg-base' : 'px-3 py-1 hover:bg-sidebar',
+                ]}
+            >
+                {texto}
+            </a>
+        </li>
+    ))}
+</ul>

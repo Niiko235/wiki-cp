@@ -1,64 +1,86 @@
 ---
 import { Icon } from 'astro-icon/components'
-import Buttom from '../components/Buttom.astro'
-
-interface Props {
-    showMenuButton?: boolean;
-}
-
-const { showMenuButton = true } = Astro.props;
+import Button from '../components/Button.astro'
+import Logo from '../components/Logo.astro'
+import NavLinks from '../components/NavLinks.astro'
+import Buscador from '../components/Buscador.astro'
+import { REDES } from '../lib/enlaces'
 ---
 
-<nav class={`${!showMenuButton ? 'flex-col md:flex-row' : ''} py-4 px-4 flex items-center justify-between border-b border-border text-body sticky top-0 bg-base z-50`}> 
-    <div class="flex items-center gap-3">
-        {showMenuButton && (
-            <Buttom id="sidebar-toggle-btn" class="p-1.5 md:hidden text-primary bg-sidebar border border-border rounded-md hover:cursor-pointer transition-colors" aria-label="Abrir menú lateral">
-                <Icon name="lucide:menu" class="w-5 h-5"/>
-            </Buttom>
-        )}
+<header class="sticky top-0 z-50 h-(--navbar-h) border-b border-border bg-base text-body">
+    <!-- El fondo y el borde ocupan todo el ancho; el contenido se limita al ancho del sitio. -->
+    <div class="mx-auto flex h-full max-w-shell items-center justify-between gap-2 px-4">
+        <div class="flex items-center gap-3">
+            <Button
+                variante="icono"
+                id="menu-toggle-btn"
+                aria-label="Abrir menú"
+                aria-controls="mobile-drawer"
+                aria-expanded="false"
+                class="md:hidden"
+            >
+                <Icon name="lucide:menu" class="size-5" />
+            </Button>
 
-        <a href={import.meta.env.BASE_URL}>
-            <div class="flex gap-1.5 font-semibold items-center">
-                <p class="font-extrabold text-title text-xl">
-                    wiki 
-                    <span class="text-accent">cp</span>
-                </p>
-                <span>·</span>
-                <p>udla</p>
+            <Logo href={import.meta.env.BASE_URL} />
+        </div>
+
+        <nav aria-label="Principal" class="hidden md:block">
+            <NavLinks />
+        </nav>
+
+        <div class="flex items-center gap-2 text-muted">
+            <Buscador />
+            <Button variante="icono" id="btn-tema" aria-label="Cambiar entre tema claro y oscuro">
+                <Icon name="lucide:moon" class="dark:hidden" />
+                <Icon name="lucide:sun" class="hidden dark:inline" />
+            </Button>
+            <!-- En móvil las redes viven dentro del menú lateral -->
+            <div class="hidden items-center gap-2 md:flex">
+                <Button variante="icono" href={REDES.facebook} aria-label="Facebook">
+                    <Icon name="simple-icons:facebook" />
+                </Button>
+                <Button variante="icono" href={REDES.instagram} aria-label="Instagram">
+                    <Icon name="simple-icons:instagram" />
+                </Button>
             </div>
-        </a>
+        </div>
     </div>
-
-    <ul class={`${!showMenuButton ? 'flex' : 'hidden md:flex gap-2'}`}>
-        <a href="/teoria/introduccion-bienvenida">
-            <Buttom class="rounded-md px-3 py-1 hover:bg-sidebar hover:text-primary hover:font-bold">Teoria</Buttom>
-        </a>
-        <a href="/ejercicios">
-            <Buttom class="rounded-md px-3 py-1 hover:bg-sidebar hover:text-primary hover:font-bold">Ejercicios</Buttom>
-        </a>
-        <a href="/agradecimientos">
-            <Buttom class="rounded-md px-3 py-1 hover:bg-sidebar hover:text-primary hover:font-bold">Agradecimientos</Buttom>
-        </a>
-    </ul>
-
-    <ul class={`${!showMenuButton ? 'hidden md:flex' : 'flex'} gap-2 text-muted items-center`}>
-        <Buttom id="btn-tema" class="bg-sidebar p-1.5 border border-border rounded-md cursor-pointer">
-            <Icon name="lucide:moon"/>
-        </Buttom>
-        <a href="https://www.facebook.com/groups/792879287501813" target="_blank" aria-label="Facebook">
-            <Buttom class="bg-sidebar p-1.5 border border-border rounded-md"><Icon name="simple-icons:facebook"/></Buttom>
-        </a>
-        <a href="https://www.instagram.com/udla_cp" target="_blank" aria-label="Instagram">
-            <Buttom class="bg-sidebar p-1.5 border border-border rounded-md"><Icon name="simple-icons:instagram"/></Buttom>
-        </a>
-    </ul>
-</nav>
+</header>
 
 <script>
-    const btn = document.getElementById('btn-tema');
-    btn?.addEventListener('click', () => {
-        document.documentElement.classList.toggle('dark');
-        const isDark = document.documentElement.classList.contains('dark');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    // Menú lateral móvil: botón, overlay, botón de cerrar y tecla Escape.
+    const btn = document.getElementById('menu-toggle-btn');
+    const drawer = document.getElementById('mobile-drawer');
+    const overlay = document.getElementById('drawer-overlay');
+    const cerrar = document.getElementById('drawer-close');
+
+    function setAbierto(abierto: boolean) {
+        drawer?.classList.toggle('-translate-x-full', !abierto);
+        overlay?.classList.toggle('hidden', !abierto);
+        document.body.classList.toggle('overflow-hidden', abierto);
+        btn?.setAttribute('aria-expanded', String(abierto));
+    }
+
+    btn?.addEventListener('click', () => setAbierto(btn?.getAttribute('aria-expanded') !== 'true'));
+    overlay?.addEventListener('click', () => setAbierto(false));
+    cerrar?.addEventListener('click', () => setAbierto(false));
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') setAbierto(false);
+    });
+    // Si se ensancha la ventana con el menú abierto, se cierra para no dejar el scroll bloqueado.
+    window.matchMedia('(min-width: 768px)').addEventListener('change', (e) => {
+        if (e.matches) setAbierto(false);
+    });
+</script>
+
+<script>
+    // El tema inicial lo aplica el script inline de BaseHead; aquí solo se alterna y se guarda.
+    const btnTema = document.getElementById('btn-tema');
+    btnTema?.addEventListener('click', () => {
+        const isDark = document.documentElement.classList.toggle('dark');
+        try {
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        } catch {}
     });
 </script>

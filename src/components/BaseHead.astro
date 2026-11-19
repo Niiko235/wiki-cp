@@ -1,0 +1,39 @@
+---
+interface Props {
+    titulo?: string
+    descripcion?: string
+}
+
+const NOMBRE_SITIO = 'Wiki CP UDLA'
+const {
+    titulo,
+    descripcion = 'Wiki de programación competitiva en español, hecha por el semillero de la Universidad de la Amazonia (UDLA).',
+} = Astro.props
+
+const tituloCompleto = titulo
+    ? `${titulo} · ${NOMBRE_SITIO}`
+    : `${NOMBRE_SITIO} · Programación competitiva en español`
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" href="/favicon.ico" />
+<meta name="generator" content={Astro.generator} />
+<title>{tituloCompleto}</title>
+<meta name="description" content={descripcion} />
+
+<!-- Aplica el tema guardado ANTES del primer pintado para evitar el parpadeo claro→oscuro.
+     Por defecto es claro; el modo oscuro solo se activa si el usuario lo eligió. -->
+<script is:inline>
+    try {
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark')
+        }
+    } catch (e) {}
+</script>
+
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+/>

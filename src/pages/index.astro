@@ -3,18 +3,29 @@ import {Icon} from 'astro-icon/components'
 import Layout from '../layouts/Layout.astro';
 
 
-import Buttom from '../components/Buttom.astro'
+import Button from '../components/Button.astro'
 import Badge from '../components/Badge.astro'
-import Navbar from '../components/Navbar.astro';
+import ProblemCard from '../components/ProblemCard.astro'
 import Footer from '../components/Footer.astro'
+import { CATEGORIAS, estiloCategoria } from '../lib/categorias'
+import { REDES } from '../lib/enlaces'
 
 
 import { getCollection, render } from 'astro:content';
+import { NIVELES } from '../lib/niveles'
+
+// Ejemplo de un problema por nivel para la sección "Práctica" (solo ilustrativo, sin enlace)
+const EJEMPLOS_NIVELES = NIVELES.map(nivel => ({
+	nombreProblema: 'Shortest Path in a Grid',
+	nombrePlataforma: 'Codeforces · 1A',
+	nivelProblema: nivel,
+}))
 
 
-const libros = await getCollection('teorias')
+const teorias = await getCollection('teorias')
+// Temas publicados (sin contar la página de bienvenida)
+const totalTemas = teorias.filter(t => !t.id.startsWith('introduccion/')).length
 
-console.log(libros.map(t => t.id))
 
 const books = await getCollection('books')
 
@@ -28,7 +39,7 @@ const {Content} = await render(book);
 ---
 
 <Layout>
-	<main class="h-full flex flex-col  mx-auto overflow-y-auto">
+	<div class="flex flex-col">
 		
 		<section class="border-b border-border-dark">
 			<div class="text-center mx-auto space-y-4 max-w-xl py-20 px-5">
@@ -36,117 +47,63 @@ const {Content} = await render(book);
 					<div class="size-2 rounded-full bg-accent mr-2 hidden md:block"></div>
 					<h3>Semillero de Programación · UDLA · Florencia, Colombia</h3>
 				</div>
-				<h1 class="font-extrabold text-title text-6xl">
+				<h1 class="font-extrabold text-title text-4xl sm:text-5xl md:text-6xl text-balance">
 					La wiki de CP <span class="block text-accent">en español</span>
 				</h1>
 				<p class="text-body">Algoritmos, estructuras y técnicas explicadas por el semillero de programación de la Universidad de la Amazonia</p>
-				<div class="flex gap-4 flex-row justify-center items-center">
-					<a href="#">
-						<Buttom class="w-40 bg-accent p-2 text-white dark:text-black font-bold">
-							Empezar a leer →
-						</Buttom>
-					</a>
-					<a href="https://github.com/Niiko235/wiki-cp" target="_blank">
-						<Buttom class="w-40 bg-sidebar flex justify-center gap-2 border border-border-dark p-2 items-center text-muted">
-							<Icon name="simple-icons:github" size={18}/>
-							Ver en GitHub
-						</Buttom>
-					</a>
+				<div class="flex flex-wrap items-center justify-center gap-3">
+					<Button href="/teoria/introduccion/bienvenida" variante="primario" class="min-w-40 whitespace-nowrap">
+						Empezar a leer →
+					</Button>
+					<Button href={REDES.github} variante="secundario" class="min-w-40 whitespace-nowrap">
+						<Icon name="simple-icons:github" size={18}/>
+						Ver en GitHub
+					</Button>
 				</div>
-				<div class="flex justify-around text-muted items-center">
-					<p>24 algoritmos</p>
-					<p>·</p>
+				<div class="grid grid-cols-2 gap-x-4 gap-y-1 text-center text-muted sm:flex sm:justify-around sm:items-center">
+					<p>{totalTemas} temas</p>
+					<p class="hidden sm:block">·</p>
 					<p>3 niveles</p>
-					<p>·</p>
+					<p class="hidden sm:block">·</p>
 					<p>100% español</p>
-					<p>·</p>
+					<p class="hidden sm:block">·</p>
 					<p>open source</p>
 				</div>
 			</div>
 		</section>
 		<section class="border-b border-border">
-			<div class="mx-auto max-w-3xl py-15 px-5 grid grid-cols-1 md:grid-cols-2 gap-3">
+			<div class="mx-auto max-w-3xl py-15 px-5 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-3">
 				<div class="">
-					<h4 class="text-[#47e06d] text-md text-md tracking-[0.25rem]">DOCUMENTACIÓN</h4>
+					<h4 class="text-eyebrow tracking-[0.25rem]">DOCUMENTACIÓN</h4>
 					<h2 class="text-3xl font-bold text-title mb-3">Todo en español, explicado por nosotros</h2>
 					<p class="text-body mb-3">Sin traducciones automáticas. Cada algoritmo explicado desde la intuición, con nuestro propio código y nuestras macros.</p>
 					<div class="flex flex-wrap gap-1 font-semibold">
-						<Badge class="text-geometria-text bg-geometria-bg border-geometria-border">
-							Geometria
-						</Badge>
-						<Badge class="text-strings-text bg-strings-bg border-strings-border">
-							String
-						</Badge>
-						<Badge class="text-grafos-text bg-grafos-bg border-grafos-border">
-							Grafos
-						</Badge>
-						<Badge class="text-mates-text bg-mates-bg border-mates-border">
-							Matemáticas
-						</Badge>
-						<Badge class="text-estructuras-text bg-estructuras-bg border-estructuras-border">
-							Estructuras
-						</Badge>
-						<Badge class="text-dp-text bg-dp-bg border-dp-border">
-							DP
-						</Badge>
-						<Badge class="text-flujo-text bg-flujo-bg border-flujo-border">
-							Flujos
-						</Badge>
-					</div>
+							{CATEGORIAS.filter(c => c.slug !== 'introduccion').map(c => (
+								<Badge class="chip-cat" style={estiloCategoria(c.slug)}>
+									{c.nombre}
+								</Badge>
+							))}
+						</div>
 				</div>
-				<div class="prose dark:prose-invert flex items-center justify-end">
+				<div class="prose prose-wiki flex items-center justify-end">
 					<Content/>
 				</div>
 			</div>
 		</section>
 		<section class="border-b border-border">
-			<div class="mx-auto max-w-3xl py-15 px-5 grid grid-cols-1 md:grid-cols-2 gap-3">
-				<div class="order-2">
-					<h4 class="text-[#47e06d] text-md text-md tracking-[0.25rem]">PRACTICA</h4>
+			<div class="mx-auto max-w-3xl py-15 px-5 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-3">
+				<div class="md:order-2">
+					<h4 class="text-eyebrow tracking-[0.25rem]">PRACTICA</h4>
 					<h2 class="text-3xl font-bold text-title mb-3">Ejercicios clasificados por nivel</h2>
 					<p class="text-body mb-3">Cada algoritmo tiene su lista de problemas curados. Tres niveles de dificultad para que puedas ir desde los fundamentos hasta problemas de clasificatoria nacional.</p>
 				</div>
-				<div class="flex flex-col justify-center space-y-1.25">
-					<div class="flex items-center justify-between border rounded-xl px-3 border-bronce-border border-l-5 ">
-						<div>
-							<p class="">Shortest Path in a Grid</p>
-							<span>Codeforces · 1A</span>
-						</div>
-						<div>
-							<Badge class="flex items-center gap-1 border bg-bronce-bg border-bronce-border text-bronce-text">
-								<span class="size-3 rounded-full bg-bronce-border"></span>
-								<span class="font-semibold">Bronce</span>
-							</Badge>
-						</div>
-					</div>
-					<div class="flex items-center justify-between border rounded-xl px-3 border-plata-border border-l-5 ">
-						<div>
-							<p class="my-0">Shortest Path in a Grid</p>
-							<span>Codeforces · 1A</span>
-						</div>
-						<div>
-							<Badge class="flex items-center bg-plata-bg border border-plata-border text-plata-text">
-								<span class="size-3 rounded-full bg-plata-border"></span>
-								<span class="font-semibold">Plata</span>
-							</Badge>
-						</div>
-					</div>
-					<div class="flex items-center justify-between border rounded-xl px-3 border-oro-border border-l-5 ">
-						<div>
-							<p class="my-0">Shortest Path in a Grid</p>
-							<span>Codeforces · 1A</span>
-						</div>
-						<div>
-							<Badge class="flex items-center gap-1 bg-oro-bg border border-oro-border text-oro-text">
-								<span class="size-3 rounded-full bg-oro-border"></span>
-								<span class="font-semibold">Oro</span>
-							</Badge>
-						</div>
-					</div>
+				<!-- Vista previa: tarjetas sin enlace, con el mismo componente de los temas y /ejercicios -->
+				<div class="flex flex-col justify-center gap-2">
+					{EJEMPLOS_NIVELES.map(problema => <ProblemCard problema={problema} />)}
 				</div>
 			</div>
 		</section>
 		
 		<Footer/>
-	</main>
+	</div>
 </Layout>
