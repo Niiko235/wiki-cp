@@ -36,12 +36,14 @@ const teorias = defineCollection({
             nivelProblema: z.enum(['Bronce', 'Plata', 'Oro']),
             urlProblema: z.string(),
         })),
+        // Recursos para profundizar; se muestran al final del tema. `Otro` sirve para lo que no es video,
+        // documento ni libro: un repositorio, una herramienta o visualizador online, un curso, un podcast…
+        // La URL debe ser completa (https://...): si no, el build falla en vez de dejar un enlace roto.
         materialExtra: z.array(z.object({
             nombreMaterialExtra: z.string(),
             tipoMaterialExtra: z.enum(['Video', 'Doc', 'Libro', 'Otro']),
-            urlMaterialExtra: z.string()
-
-        }))
+            urlMaterialExtra: z.string().url('urlMaterialExtra debe ser una URL completa, por ejemplo https://cp-algorithms.com'),
+        })).default([]),
 
     })
 })

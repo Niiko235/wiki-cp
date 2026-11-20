@@ -1,0 +1,69 @@
+---
+import { Icon } from 'astro-icon/components'
+import type { CollectionEntry } from 'astro:content'
+
+/**
+ * Sección "Material extra" al final de cada tema: videos, documentos, libros y otros enlaces para profundizar.
+ * Recibe `materialExtra` del frontmatter tal cual. Si está vacío no se dibuja nada.
+ *
+ *   materialExtra:
+ *     - nombreMaterialExtra: "Prefix function (CP-Algorithms)"
+ *       tipoMaterialExtra: Doc          # Video | Doc | Libro | Otro
+ *       urlMaterialExtra: "https://cp-algorithms.com/string/prefix-function.html"
+ */
+type Material = CollectionEntry<'teorias'>['data']['materialExtra'][number]
+interface Props {
+    materiales: Material[]
+}
+
+const { materiales } = Astro.props
+
+// Las clases y los íconos van completos (sin interpolar) para que Tailwind y astro-icon los detecten.
+const TIPOS: Record<Material['tipoMaterialExtra'], { icono: string; etiqueta: string }> = {
+    Video: { icono: 'lucide:circle-play', etiqueta: 'Video' },
+    Doc: { icono: 'lucide:file-text', etiqueta: 'Documento' },
+    Libro: { icono: 'lucide:book-open', etiqueta: 'Libro' },
+    Otro: { icono: 'lucide:link', etiqueta: 'Enlace' },
+}
+
+// Solo el dominio ("cp-algorithms.com"), para que se vea a dónde lleva el enlace antes de abrirlo
+const dominio = (url: string) => new URL(url).hostname.replace(/^www\./, '')
+---
+
+{materiales.length > 0 && (
+    <section id="material-extra" aria-labelledby="titulo-material-extra" class="mt-8 scroll-mt-4 border-t border-border pt-6">
+        <h2 id="titulo-material-extra" class="mb-1 text-2xl font-bold text-title">Material extra</h2>
+        <p class="mb-4 text-sm text-body">Para profundizar en el tema.</p>
+
+        <ul class="grid grid-cols-1 gap-3 md:grid-cols-2">
+            {materiales.map(material => {
+                const tipo = TIPOS[material.tipoMaterialExtra]
+                return (
+                    <li class="group relative flex items-center gap-3 rounded-xl border border-border bg-card p-3 transition-colors hover:border-border-dark hover:bg-sidebar has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-accent">
+                        <span class="grid size-10 shrink-0 place-items-center rounded-lg border border-border bg-sidebar text-accent group-hover:bg-card">
+                            <Icon name={tipo.icono} class="size-5" />
+                        </span>
+                        <div class="min-w-0 flex-1">
+                            <a
+                                href={material.urlMaterialExtra}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="block truncate font-semibold text-title outline-none after:absolute after:inset-0"
+                            >
+                                {material.nombreMaterialExtra}
+                            </a>
+                            <p class="mt-0.5 truncate text-sm text-muted">
+                                {tipo.etiqueta}<span aria-hidden="true"> · </span>{dominio(material.urlMaterialExtra)}
+                            </p>
+                        </div>
+                        <Icon
+                            name="lucide:arrow-up-right"
+                            aria-label="Abre en otra pestaña"
+                            class="size-4.5 shrink-0 text-muted transition-[color,transform] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-title"
+                        />
+                    </li>
+                )
+            })}
+        </ul>
+    </section>
+)}
