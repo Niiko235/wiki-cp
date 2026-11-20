@@ -7,6 +7,7 @@ import { NIVELES } from '../../../lib/niveles'
 import { categoriaDe, estiloCategoria } from '../../../lib/categorias'
 import { temario } from '../../../lib/rutas-sidebar'
 import Prerequisitos from '../../../components/Prerequisitos.astro'
+import MaterialExtra from '../../../components/MaterialExtra.astro'
 import NavegacionTemas from '../../../components/NavegacionTemas.astro'
 
 export async function getStaticPaths() {
@@ -109,6 +110,8 @@ const problemasOrdenados = NIVELES.flatMap(nivel =>
           </section>
         )
       }
+
+      <MaterialExtra materiales={data.materialExtra} />
 
       <NavegacionTemas id={teoria.id} />
 

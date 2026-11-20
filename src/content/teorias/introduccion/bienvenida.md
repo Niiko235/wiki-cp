@@ -47,10 +47,19 @@ Cada tema dentro de la wiki sigue la misma estructura para que siempre sepas qu�
 
 | Tipo | Descripción |
 |------|-------------|
-| 📹 Video | Explicación en video |
-| 📖 Wiki | Artículo o documentación externa |
-| 📄 Artículo | Paper o blog técnico |
-| 📚 Libro | Capítulo o libro de referencia |
+| 📹 `Video` | Explicación en video |
+| 📄 `Doc` | Artículo, blog o documentación externa |
+| 📚 `Libro` | Capítulo o libro de referencia |
+| 🔗 `Otro` | Cualquier otro recurso: un repositorio, un visualizador o herramienta online, un curso |
+
+En el frontmatter se escribe así (la URL debe empezar por `https://`):
+
+```yaml
+materialExtra:
+  - nombreMaterialExtra: "Nombre que se verá en la tarjeta"
+    tipoMaterialExtra: Doc
+    urlMaterialExtra: "https://ejemplo.com/articulo"
+```
 
 ---
 
