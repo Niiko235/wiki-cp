@@ -4,7 +4,7 @@ titulo: "Emparejamiento Bipartito Máximo"
 fechaEscrito: 2026-08-28
 fechaUltimaActualizacion: 2026-09-04
 complejidad: '\mathcal{O}(E \cdot V)'
-prerequisitos: []
+prerequisitos: [flujos/flujo-maximo]
 problemas: []
 materialExtra: []
 ---

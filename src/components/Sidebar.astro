@@ -1,7 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components'
-import { rutas } from "../lib/rutas-sidebar";
-import { categoriaPorSlug } from '../lib/categorias'
+import { gruposDelTemario } from "../lib/rutas-sidebar";
 import { REDES } from '../lib/enlaces'
 import NavLinks from './NavLinks.astro'
 import Button from './Button.astro'
@@ -13,11 +12,9 @@ interface Props {
 
 const { conTemario = true } = Astro.props
 
-// Solo salen las categorías que tienen docs en rutas-sidebar.ts, en el orden de categorias.ts.
-// categoriaPorSlug falla en el build si un slug no existe.
-const grupos = rutas
-    .map(ruta => ({ ...ruta, cat: categoriaPorSlug(ruta.categoria) }))
-    .sort((a, b) => a.cat.orden - b.cat.orden)
+// Solo salen las categorías que tienen docs en rutas-sidebar.ts, en el orden de categorias.ts
+// (el mismo orden que usan los botones Anterior / Siguiente de cada tema).
+const grupos = gruposDelTemario
 ---
 
 <div id="drawer-overlay" class="fixed inset-0 z-55 hidden bg-black/50 md:hidden"></div>

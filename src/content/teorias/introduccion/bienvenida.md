@@ -121,9 +121,11 @@ Esta wiki es construida y mantenida por el semillero. Si quieres agregar un tema
 1. Clona el repositorio en GitHub
 2. Crea un archivo `nombre-tema.md` dentro de la carpeta de su sección en `src/content/teorias/` (por ejemplo `src/content/teorias/grafos/kruskal.md`). La página quedará en `/teoria/grafos/kruskal`
 3. Sigue la estructura de contenido que describimos arriba
-4. Si tu tema lleva imágenes, guárdalas en `src/assets/imgs/categoria/tema/` (por ejemplo `src/assets/imgs/grafos/kruskal/`) y úsalas así: `![descripción](../../../assets/imgs/categoria/tema/imagen.png)`. Antes de abrir el PR corre `npm run optimizar-imagenes` para que pesen menos sin que se note el cambio.
-5. Si quieres resaltar un aviso, usa un callout: empieza una cita con `> [!NOTA]`, `> [!TIP]`, `> [!IMPORTANTE]` o `> [!CUIDADO]` y escribe el texto en las líneas siguientes (también con `>`). Si pones algo después de la marca, por ejemplo `> [!CUIDADO] Desbordamiento`, ese será el título.
-6. Abre un Pull Request — tu nombre aparecerá como autor en la página
+4. Agrega tu tema a `src/lib/rutas-sidebar.ts`, dentro de su sección y en el lugar donde debe leerse. Ese orden es el del sidebar y el de los botones *Anterior* / *Siguiente* al final de cada tema
+5. En el frontmatter, `prerequisitos` lleva la ubicación de los temas de la wiki que conviene leer antes, sin `.md`: `prerequisitos: [grafos/kruskal, flujos/flujo-maximo]`. El título y el enlace salen solos; si escribes una ubicación que no existe, el build te avisa
+6. Si tu tema lleva imágenes, guárdalas en `src/assets/imgs/categoria/tema/` (por ejemplo `src/assets/imgs/grafos/kruskal/`) y úsalas así: `![descripción](../../../assets/imgs/categoria/tema/imagen.png)`. Antes de abrir el PR corre `npm run optimizar-imagenes` para que pesen menos sin que se note el cambio.
+7. Si quieres resaltar un aviso, usa un callout: empieza una cita con `> [!NOTA]`, `> [!TIP]`, `> [!IMPORTANTE]` o `> [!CUIDADO]` y escribe el texto en las líneas siguientes (también con `>`). Si pones algo después de la marca, por ejemplo `> [!CUIDADO] Desbordamiento`, ese será el título.
+8. Abre un Pull Request — tu nombre aparecerá como autor en la página
 
 > [!TIP] Recuerda
 > Cada página que escribas le sirve a futuros estudiantes del semillero. Es tu herencia para la universidad.

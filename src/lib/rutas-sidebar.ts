@@ -1,3 +1,5 @@
+import { categoriaPorSlug } from './categorias'
+
 type rutasType = {
     categoria: string, // slug de una categoría de src/lib/categorias.ts (de ahí salen el nombre y el orden)
     contenido: {
@@ -139,3 +141,39 @@ export const rutas : rutasType = [
 // ]
 
 
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Orden del temario: una sola fuente para el sidebar y los botones Anterior / Siguiente.
+// Secciones en el orden de src/lib/categorias.ts; dentro de cada sección, en el orden de `rutas` (arriba).
+// Para mover un tema de lugar basta con moverlo en `rutas`.
+
+
+export type TemaDelTemario = {
+    id: string        // "grafos/kruskal": ubicación del .md dentro de src/content/teorias
+    href: string      // "/teoria/grafos/kruskal"
+    nombre: string    // nombre corto que muestra el sidebar
+    seccion: string   // nombre de la sección ("Grafos")
+}
+
+// Secciones con sus temas, ya ordenadas. categoriaPorSlug falla en el build si un slug no existe.
+export const gruposDelTemario = rutas
+    .map(ruta => ({ ...ruta, cat: categoriaPorSlug(ruta.categoria) }))
+    .sort((a, b) => a.cat.orden - b.cat.orden)
+
+// Todos los temas en una sola lista, en el orden en que se leen.
+export const temario: TemaDelTemario[] = gruposDelTemario.flatMap(grupo =>
+    grupo.contenido.map(tema => ({
+        id: `${grupo.categoria}/${tema.slugContenido}`,
+        href: `/teoria/${grupo.categoria}/${tema.slugContenido}`,
+        nombre: tema.nombreContenido,
+        seccion: grupo.cat.nombre,
+    }))
+)
+
+// Tema anterior y siguiente de un doc según el temario (null en los extremos o si no está en el temario).
+export function vecinosEnTemario(id: string) {
+    const i = temario.findIndex(tema => tema.id === id)
+    if (i === -1) return { anterior: null, siguiente: null }
+    return { anterior: temario[i - 1] ?? null, siguiente: temario[i + 1] ?? null }
+}

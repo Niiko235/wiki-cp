@@ -5,9 +5,26 @@ import katex from 'katex'
 import ProblemCard from '../../../components/ProblemCard.astro'
 import { NIVELES } from '../../../lib/niveles'
 import { categoriaDe, estiloCategoria } from '../../../lib/categorias'
+import { temario } from '../../../lib/rutas-sidebar'
+import Prerequisitos from '../../../components/Prerequisitos.astro'
+import NavegacionTemas from '../../../components/NavegacionTemas.astro'
 
 export async function getStaticPaths() {
   const teorias = await getCollection('teorias')
+
+  // El temario (rutas-sidebar.ts) debe apuntar a docs que existen; si no, el sidebar y los botones
+  // Anterior / Siguiente tendrían enlaces rotos. Un doc fuera del temario solo genera un aviso.
+  const ids = new Set(teorias.map(t => t.id))
+  const rotos = temario.filter(t => !ids.has(t.id)).map(t => t.id)
+  if (rotos.length > 0) {
+    throw new Error(`src/lib/rutas-sidebar.ts apunta a temas que no existen: ${rotos.join(', ')}. ` +
+      `Revisa la categoría y el slugContenido (debe coincidir con src/content/teorias/<categoria>/<slug>.md).`)
+  }
+  const enTemario = new Set(temario.map(t => t.id))
+  for (const t of teorias) {
+    if (!enTemario.has(t.id)) console.warn(`[temario] "${t.id}" no está en src/lib/rutas-sidebar.ts: no sale en el sidebar ni tiene botones Anterior / Siguiente.`)
+  }
+
   // id = "grafos/kruskal" (ruta del .md dentro de src/content/teorias) → /teoria/grafos/kruskal
   return teorias.map((teoria) => ({
     params: { seccion: teoria.id.split('/')[0], tema: teoria.id.split('/').slice(1).join('/') },
@@ -74,6 +91,8 @@ const problemasOrdenados = NIVELES.flatMap(nivel =>
       </div>
 
 
+      <Prerequisitos prerequisitos={data.prerequisitos} />
+
       <div data-pagefind-body class="prose prose-wiki max-w-none prose-code:before:content-none prose-code:after:content-none pb-6">
         <Content/>
       </div>
@@ -90,6 +109,8 @@ const problemasOrdenados = NIVELES.flatMap(nivel =>
           </section>
         )
       }
+
+      <NavegacionTemas id={teoria.id} />
 
     </div>
   </div>

@@ -1,0 +1,47 @@
+---
+import { Icon } from 'astro-icon/components'
+import { vecinosEnTemario } from '../lib/rutas-sidebar'
+
+/**
+ * Botones "Anterior" y "Siguiente" al final de cada tema.
+ * Siguen el mismo orden del sidebar (src/lib/rutas-sidebar.ts), también entre secciones:
+ * después del último tema de Grafos viene el primero de Strings.
+ */
+interface Props {
+    id: string // ubicación del doc: "grafos/kruskal"
+}
+
+const { anterior, siguiente } = vecinosEnTemario(Astro.props.id)
+---
+
+{(anterior || siguiente) && (
+    <nav aria-label="Navegación entre temas" class="mt-10 grid grid-cols-1 gap-3 border-t border-border pt-6 sm:grid-cols-2">
+        {anterior ? (
+            <a
+                href={anterior.href}
+                rel="prev"
+                class="group flex items-center gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-border-dark hover:bg-sidebar"
+            >
+                <Icon name="lucide:arrow-left" class="size-5 shrink-0 text-muted transition-transform group-hover:-translate-x-0.5 group-hover:text-accent" />
+                <span class="min-w-0">
+                    <span class="block text-xs text-muted">Anterior · {anterior.seccion}</span>
+                    <span class="block truncate font-semibold text-title">{anterior.nombre}</span>
+                </span>
+            </a>
+        ) : <span class="hidden sm:block" aria-hidden="true"></span>}
+
+        {siguiente && (
+            <a
+                href={siguiente.href}
+                rel="next"
+                class="group flex items-center justify-end gap-3 rounded-xl border border-border bg-card p-4 text-right transition-colors hover:border-border-dark hover:bg-sidebar"
+            >
+                <span class="min-w-0">
+                    <span class="block text-xs text-muted">Siguiente · {siguiente.seccion}</span>
+                    <span class="block truncate font-semibold text-title">{siguiente.nombre}</span>
+                </span>
+                <Icon name="lucide:arrow-right" class="size-5 shrink-0 text-muted transition-transform group-hover:translate-x-0.5 group-hover:text-accent" />
+            </a>
+        )}
+    </nav>
+)}
