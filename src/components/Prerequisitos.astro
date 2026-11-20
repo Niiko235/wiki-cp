@@ -1,0 +1,53 @@
+---
+import { Icon } from 'astro-icon/components'
+import { getEntries, type CollectionEntry } from 'astro:content'
+import { categoriaDe, estiloCategoria } from '../lib/categorias'
+
+/**
+ * Recuadro "Antes de leer este tema" con enlaces a los prerequisitos del frontmatter.
+ * Recibe las referencias tal cual vienen del schema (`prerequisitos: [grafos/kruskal]`) y saca de cada
+ * tema su título y su sección. Si no hay prerequisitos no se dibuja nada.
+ */
+interface Props {
+    prerequisitos: CollectionEntry<'teorias'>['data']['prerequisitos']
+}
+
+const { prerequisitos } = Astro.props
+const encontrados = await getEntries(prerequisitos)
+const faltantes = prerequisitos.filter((_, i) => !encontrados[i]).map(ref => ref.id)
+if (faltantes.length > 0) {
+    throw new Error(
+        `prerequisitos en ${Astro.url.pathname}: no existe ${faltantes.map(id => `"${id}"`).join(', ')}. ` +
+        `Usa la ubicación del tema dentro de src/content/teorias, sin .md (por ejemplo grafos/kruskal).`
+    )
+}
+const temas = encontrados
+---
+
+{temas.length > 0 && (
+    <aside aria-labelledby="titulo-prerequisitos" class="mb-8 rounded-xl border border-border bg-card p-4 sm:p-5">
+        <p id="titulo-prerequisitos" class="mb-3 flex items-center gap-2 text-sm font-semibold text-title">
+            <Icon name="lucide:book-open-check" class="size-4.5 text-accent" />
+            Antes de leer este tema, conviene saber:
+        </p>
+        <ul class="flex flex-col gap-2">
+            {temas.map(tema => {
+                const seccion = categoriaDe(tema.id)
+                return (
+                    <li>
+                        <a
+                            href={`/teoria/${tema.id}`}
+                            class="group flex items-center gap-3 rounded-lg border border-border px-3 py-2 transition-colors hover:border-border-dark hover:bg-sidebar"
+                        >
+                            <span class="min-w-0 flex-1 truncate font-medium text-title group-hover:underline">{tema.data.titulo}</span>
+                            <span class="chip-cat shrink-0 rounded-full border px-2 py-0.5 text-[11px] font-semibold" style={estiloCategoria(seccion.slug)}>
+                                {seccion.nombre}
+                            </span>
+                            <Icon name="lucide:arrow-right" class="size-4 shrink-0 text-muted transition-transform group-hover:translate-x-0.5" />
+                        </a>
+                    </li>
+                )
+            })}
+        </ul>
+    </aside>
+)}

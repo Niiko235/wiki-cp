@@ -1,6 +1,6 @@
 ---
 autores: ["Santiago Hernandez"]
-titulo: "Algoritmo de KMP"
+titulo: "Arreglo LPS"
 fechaEscrito: 2026-08-28
 fechaUltimaActualizacion: 2026-08-28
 complejidad: O(n + m)
